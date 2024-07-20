@@ -130,12 +130,10 @@ echo.
 endlocal
 ::----------------------------------------------------------------------------------------------------------------
 echo ----------调整UAC级别更改计算机时通知我（不降低桌面亮度）----------
-reg.exe add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0x5 /f
-echo.
-start C:\WINDOWS\System32\UserAccountControlSettings.exe
-::----------------------------------------------------------------------------------------------------------------
-::echo ----------------------调整UAC级别更改计算机时通知我（不降低桌面亮度）生效的？
-::reg.exe add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsof(\Windows\CurrentVersion\)Policies\System" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d Ox5 /f 
+@REM reg.exe add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0x5 /f
+@REM echo.
+@REM start C:\WINDOWS\System32\UserAccountControlSettings.exe
+PowerShell -ExecutionPolicy Bypass -Command "& { .\UAC_level2.ps1 }"
 ::----------------------------------------------------------------------------------------------------------------
 echo ----------显示桌面图标（计算机）----------
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v {20D04FE0-3AEA-1069-A2D8-08002B30309D} /t REG_DWORD /d 0 /f
