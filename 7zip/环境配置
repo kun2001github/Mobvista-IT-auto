@@ -2,8 +2,9 @@
 
 2024.7.21
 python3.12
-pyautogui
+pyautogui    #文档说明https://pyautogui.readthedocs.io/en/latest/install.html
 pillow   #截图需要使用的库
 opencv-python  # 图片处理需要的库
 
+pyinstaller    #py打包成为exe工具 文档说明：https://pyinstaller.org/en/stable/
 
