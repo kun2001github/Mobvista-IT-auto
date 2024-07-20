@@ -1,0 +1,9 @@
+使用conda虚拟环境
+
+2024.7.21
+python3.12
+pyautogui
+pillow   #截图需要使用的库
+opencv-python  # 图片处理需要的库
+
+
