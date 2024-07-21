@@ -1,10 +1,5 @@
 import pyautogui
 import os
-import subprocess
-
-
-# 以管理员方式打开
-# subprocess.run(['control', 'powercfg.cpl'], check=True)
 
 
 # 定义要模拟双击的文件路径
@@ -47,11 +42,11 @@ for button_image in button_images:
             if button_image == "images\\close.png":
                 x,y= center  #把中间值，提取出现
                 x= x+150   #在中间值的x轴增加
-                pyautogui.moveTo(x,y,4)  #现对于当前位置移动，向x轴的右边移动
+                pyautogui.moveTo(x,y,0.1)  #现对于当前位置移动，向x轴的右边移动
                 pyautogui.click()   #模拟鼠标点击
                 pyautogui.sleep(1)
                 y=y+18
-                pyautogui.moveTo(x,y,4)
+                pyautogui.moveTo(x,y,0.1)
             else:
                 exit
             pyautogui.click()   #模拟鼠标点击
@@ -60,6 +55,7 @@ for button_image in button_images:
             print(f'未找到图像路径为：{button_image}的按钮')
     except pyautogui.ImageNotFoundException:
         print(f'无法找到匹配的图像。请检查图像路径：{button_image}的准确性。')
+
 
 # # 定位关闭盖子时的位置以及点击不采取任何操作
 # close_images = 'images\\close.png'
@@ -83,3 +79,4 @@ for button_image in button_images:
 #             print(f'未找到图像路径为：{close_images}的按钮')
 # except pyautogui.ImageNotFoundException:
 #         print(f'无法找到匹配的图像。请检查图像路径：{close_images}的准确性。')
+pyautogui.alert(text='powercfg设置完成，手动检查一下吧', title='温馨提示', button='OK')

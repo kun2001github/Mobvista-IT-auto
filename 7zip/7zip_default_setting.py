@@ -47,3 +47,5 @@ for button_image in button_images:
             print(f'未找到图像路径为：{button_image}的按钮')
     except pyautogui.ImageNotFoundException:
         print(f'无法找到匹配的图像。请检查图像路径：{button_image}的准确性。')
+
+pyautogui.alert(text='7-zip默认设置完成，手动检查一下吧', title='温馨提示', button='OK')
