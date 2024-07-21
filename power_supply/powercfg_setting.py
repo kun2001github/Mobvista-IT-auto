@@ -2,24 +2,21 @@ import pyautogui
 import os
 
 
+
+print("打开电源选项")
 # 定义要模拟双击的文件路径
 file_path = 'C:\\Windows\\System32\\powercfg.cpl'
 #使用os打开
 os.startfile(file_path)
-pyautogui.sleep(1)
+pyautogui.sleep(2)
 
 
 # 截图当前屏幕并保存到当前目录
+print("获取当前截图")
 screenshot = pyautogui.screenshot()
 screenshot.save('.\\images\\now_screenshot.png')
-
-#需要点击位置的图片
-
-# left_add_button_image='images\\left_add_button.png' #左边＋
-# right_add_button_image='images\\right_add_button.png' #右边＋
-# option_cab_button_image='images\\option_cab_button.png' #cab的按钮
-# option_iso_button_image= 'images\\option_iso_button.png' #iso的按钮
-# confirm_button_image = 'images\\confirm_button.png' #确定
+print("保存截图")
+pyautogui.sleep(2)
 
 # 定义按钮图像路径列表
 button_images = [
@@ -44,19 +41,20 @@ for button_image in button_images:
                 x= x+150   #在中间值的x轴增加
                 pyautogui.moveTo(x,y,0.1)  #现对于当前位置移动，向x轴的右边移动
                 pyautogui.click()   #模拟鼠标点击
+                print("点击鼠标1")
                 pyautogui.sleep(1)
                 y=y+18
                 pyautogui.moveTo(x,y,0.1)
-            else:
-                exit
             pyautogui.click()   #模拟鼠标点击
+            print("点击鼠标")
             pyautogui.sleep(1)
         else:
             print(f'未找到图像路径为：{button_image}的按钮')
     except pyautogui.ImageNotFoundException:
         print(f'无法找到匹配的图像。请检查图像路径：{button_image}的准确性。')
 
-
+print("操作完成")
+pyautogui.alert(text='powercfg设置完成，手动检查一下吧', title='温馨提示', button='OK')
 # # 定位关闭盖子时的位置以及点击不采取任何操作
 # close_images = 'images\\close.png'
 # try:
@@ -79,4 +77,3 @@ for button_image in button_images:
 #             print(f'未找到图像路径为：{close_images}的按钮')
 # except pyautogui.ImageNotFoundException:
 #         print(f'无法找到匹配的图像。请检查图像路径：{close_images}的准确性。')
-pyautogui.alert(text='powercfg设置完成，手动检查一下吧', title='温馨提示', button='OK')

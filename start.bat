@@ -92,11 +92,20 @@ powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 0
 ::0：表示将待机超时时间设置为“永不”，即系统不会进入待机状态。
 ::----------------------------------------------------------------------------------------------------------------
 
-setlocal
+@REM setlocal
+@REM echo ----------打开电源管理----------
+@REM start powercfg.cpl
+@REM ::if %errorlevel% neq 0 echo 打开电源管理可能失败,请手动打开！
+@REM endlocal
+
 echo ----------打开电源管理----------
-start powercfg.cpl
-::if %errorlevel% neq 0 echo 打开电源管理可能失败,请手动打开！
-endlocal
+cd power_supply/dist
+start powercfg_setting.exe
+cd ../../
+cd /d "%~dp0"  
+echo 当前目录已更改为: %cd%  
+
+timeout 30
 
 echo ----------打开磁盘管理，删除没必要的分区防止还有其他分区导致数据外露----------
 start Diskmgmt.msc
@@ -135,6 +144,7 @@ echo ----------调整UAC级别更改计算机时通知我（不降低桌面亮�
 @REM echo.
 @REM start C:\WINDOWS\System32\UserAccountControlSettings.exe
 PowerShell -ExecutionPolicy Bypass -Command "& { .\UAC_level2.ps1 }"
+echo "设置UAC完成"
 ::----------------------------------------------------------------------------------------------------------------
 echo ----------显示桌面图标（计算机）----------
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v {20D04FE0-3AEA-1069-A2D8-08002B30309D} /t REG_DWORD /d 0 /f
@@ -150,108 +160,117 @@ echo.
 echo.
 ::----------------------------------------------------------------------------------------------------------------
 echo ------------------软件安装-----------------------
-start /wait hPjeBME6V2khYZI3p-8bssXpQTdi9XPL.exe 
-start /wait 7z2407-x64.exe /S
+@REM start /wait hPjeBME6V2khYZI3p-8bssXpQTdi9XPL.exe 
+@REM start /wait 7z2407-x64.exe /S
 echo 安装成功7-zip
 
-echo 设置默认的7-zip中，设置中
-start "" "C:\Program Files\7-Zip\7zFM.exe"
-echo 设置默认的7-zip完成 
-::assoc | findstr /i "7-Zip"
-::ftype | findstr /i "7-Zip"
-::echo  待完成
+@REM echo 设置默认的7-zip中，设置中
+@REM start "" "C:\Program Files\7-Zip\7zFM.exe"
+@REM echo 设置默认的7-zip完成 
+@REM ::assoc | findstr /i "7-Zip"
+@REM ::ftype | findstr /i "7-Zip"
+@REM ::echo  待完成
 
-start /wait PotPlayerSetup64.exe /S
-echo 安装成功PotPlayer（播放器）
+echo 使用python脚本设置7-zip默认
+cd 7zip/dist
+start 7zip_default_setting.exe
+cd ../../
+cd /d "%~dp0"  
+echo 当前目录已更改为: %cd%  
 
-start /wait WeChatSetup.exe /S
-echo 安装成功微信
+timeout 30
 
-start /wait FeiLian_Windows_x86_v2.2.23_r1015_464e4f.exe /S
-echo 安装成功飞连
+@REM start /wait PotPlayerSetup64.exe /S
+@REM echo 安装成功PotPlayer（播放器）
 
-start /wait 7.6.0-Release.71210801.exe /S
-echo 安装成功钉钉
+@REM start /wait WeChatSetup.exe /S
+@REM echo 安装成功微信
 
-start /wait ChromeStandaloneSetup64.exe
-echo 安装成功chrome浏览器
+@REM start /wait FeiLian_Windows_x86_v2.2.23_r1015_464e4f.exe /S
+@REM echo 安装成功飞连
 
-start /wait WPS_Setup_17145.exe /S -agreelicense
-echo 安装成功wps
+@REM start /wait 7.6.0-Release.71210801.exe /S
+@REM echo 安装成功钉钉
 
-AcroRdrDCx642400220857_MUI\Setup.exe /sPB
-echo 安装成功AcroRdrDCx 
+@REM start /wait ChromeStandaloneSetup64.exe
+@REM echo 安装成功chrome浏览器
 
-start /wait AcroRdrALSDx64_2300820421_all_DC.msi /passive
-echo 安装成功 AcroRdrALSDx64 语言包
+@REM start /wait WPS_Setup_17145.exe /S -agreelicense
+@REM echo 安装成功wps
 
-start /wait DingTalk_Pirnt.exe
-echo 安装智能云钉钉打印机成功
+@REM AcroRdrDCx642400220857_MUI\Setup.exe /sPB
+@REM echo 安装成功AcroRdrDCx 
 
-start /wait Setup[T1q358KV][6332a09e67259].exe
-echo 安装成功360安全
+@REM start /wait AcroRdrALSDx64_2300820421_all_DC.msi /passive
+@REM echo 安装成功 AcroRdrALSDx64 语言包
 
+@REM start /wait DingTalk_Pirnt.exe
+@REM echo 安装智能云钉钉打印机成功
 
-::----------------------------------------------------------------------------------------------------------------
-echo ------------获取序列号并且复制-------------------
-wmic bios get serialnumber | findstr /V SerialNumber | clip
-if %errorlevel% neq 0 echo 序列包复制失败，请手动输入 （wmic bios get serialnumber | findstr /V SerialNumber） 获取序列号并且复制
-echo.
-echo 序列号（如果没有复制成功，请在下方手动复制即可）：
-wmic bios get serialnumber
-echo ------------笔记本：获取序列号并且复制命令-------------------
-echo  bios get serialnumber
-echo "wmic bios get serialnumber | findstr /V SerialNumber | clip" 
-echo.
-echo.
-
-echo 按1次回车即可查看软件是否安装成功 & pause
-
-echo ---------------检查是否安装成功----------------------
-setlocal EnableDelayedExpansion  
-:: 定义要检查的文件的路径和名称  
-set "files[0]=C:\Program Files (x86)\DingDing\DingtalkLauncher.exe"  
-set "files[1]=C:\Program Files\Tencent\WeChat\WeChat.exe"  
-set "files[2]=C:\Program Files\Google\Chrome\Application\chrome.exe"  
-set "files[3]=C:\Program Files\7-Zip\7zFM.exe"  
-set "files[4]=C:\Program Files\DAUM\PotPlayer\PotPlayerMini64.exe"  
-set "files[5]=C:\Program Files\CorpLink\current\Client\CorpLink.exe"  
-set "files[6]=C:\Program Files (x86)\Kingsoft Office Software\WPS Office\ksolaunch.exe"
-set "files[7]=C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"  
-set "files[8]=C:\Program Files (x86)\360\360Safe\360Safe.exe"  
-:: 智能云打印插件，暂时找不到包的位置
+@REM start /wait Setup[T1q358KV][6332a09e67259].exe
+@REM echo 安装成功360安全
 
 
-:: 设置数组的大小  
-set "fileCount=8"  
+@REM ::----------------------------------------------------------------------------------------------------------------
+@REM echo ------------获取序列号并且复制-------------------
+@REM wmic bios get serialnumber | findstr /V SerialNumber | clip
+@REM if %errorlevel% neq 0 echo 序列包复制失败，请手动输入 （wmic bios get serialnumber | findstr /V SerialNumber） 获取序列号并且复制
+@REM echo.
+@REM echo 序列号（如果没有复制成功，请在下方手动复制即可）：
+@REM wmic bios get serialnumber
+@REM echo ------------笔记本：获取序列号并且复制命令-------------------
+@REM echo  bios get serialnumber
+@REM echo "wmic bios get serialnumber | findstr /V SerialNumber | clip" 
+@REM echo.
+@REM echo.
+
+@REM echo 按1次回车即可查看软件是否安装成功 & pause
+
+@REM echo ---------------检查是否安装成功----------------------
+@REM setlocal EnableDelayedExpansion  
+@REM :: 定义要检查的文件的路径和名称  
+@REM set "files[0]=C:\Program Files (x86)\DingDing\DingtalkLauncher.exe"  
+@REM set "files[1]=C:\Program Files\Tencent\WeChat\WeChat.exe"  
+@REM set "files[2]=C:\Program Files\Google\Chrome\Application\chrome.exe"  
+@REM set "files[3]=C:\Program Files\7-Zip\7zFM.exe"  
+@REM set "files[4]=C:\Program Files\DAUM\PotPlayer\PotPlayerMini64.exe"  
+@REM set "files[5]=C:\Program Files\CorpLink\current\Client\CorpLink.exe"  
+@REM set "files[6]=C:\Program Files (x86)\Kingsoft Office Software\WPS Office\ksolaunch.exe"
+@REM set "files[7]=C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"  
+@REM set "files[8]=C:\Program Files (x86)\360\360Safe\360Safe.exe"  
+@REM :: 智能云打印插件，暂时找不到包的位置
+
+
+@REM :: 设置数组的大小  
+@REM set "fileCount=8"  
   
-:: 循环检查每个文件  
-for /L %%i in (0,1,%fileCount%) do (  
-    set "targetFile=!files[%%i]!"  
-    if exist "!targetFile!" (  
-        echo 文件 !targetFile! 已成功安装。  
-    ) else (  
-        echo 文件 !targetFile! 未找到，可能未安装。  
-    )  
-)  
-endlocal
-echo.
-echo.
+@REM :: 循环检查每个文件  
+@REM for /L %%i in (0,1,%fileCount%) do (  
+@REM     set "targetFile=!files[%%i]!"  
+@REM     if exist "!targetFile!" (  
+@REM         echo 文件 !targetFile! 已成功安装。  
+@REM     ) else (  
+@REM         echo 文件 !targetFile! 未找到，可能未安装。  
+@REM     )  
+@REM )  
+@REM endlocal
+@REM echo.
+@REM echo.
 
 
-echo 按2次回车即可断开wifi以及忘记密码 & pause pause
+@REM echo 按2次回车即可断开wifi以及忘记密码 & pause pause
 
-echo -----------断开wifi链接---------
-netsh wlan disconnect
-if %errorlevel% neq 0 echo 连接Wi-Fi网络失败！
+@REM echo -----------断开wifi链接---------
+@REM netsh wlan disconnect
+@REM if %errorlevel% neq 0 echo 连接Wi-Fi网络失败！
 
-echo ----------忘记wifi-------------
-netsh wlan delete profile test
-if %errorlevel% neq 0 echo 已忘记！
-echo.
-echo.
-echo.
+@REM echo ----------忘记wifi-------------
+@REM netsh wlan delete profile test
+@REM if %errorlevel% neq 0 echo 已忘记！
+@REM echo.
+@REM echo.
+@REM echo.
 
 
-echo 按2次回车键即可重启哦 & pause pause
-shutdown /r /t 0
+@REM echo 按2次回车键即可重启哦 & pause pause
+@REM shutdown /r /t 0

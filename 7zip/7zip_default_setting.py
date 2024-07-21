@@ -2,17 +2,20 @@ import pyautogui
 import subprocess
 
 # 以管理员方式打开7-Zip
+print("打开7-zip")
 subprocess.Popen(['E:\\Program Files\\7-Zip\\7zFM.exe'], creationflags=subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.DETACHED_PROCESS)
-pyautogui.sleep(1)
+pyautogui.sleep(3)
 
 # 按下Alt+T 和 o  
+print("按快捷键")
 pyautogui.hotkey('alt', 't','o')
-pyautogui.sleep(1)
+pyautogui.sleep(3)
 
 
 # 截图当前屏幕并保存到当前目录
 screenshot = pyautogui.screenshot()
 screenshot.save('.\\images\\now_screenshot.png')
+print("截图当前屏幕完成")
 
 #需要点击位置的图片
 
@@ -42,10 +45,12 @@ for button_image in button_images:
             # 模拟鼠标移动到按钮的中心并点击
             pyautogui.moveTo(center)   #鼠标到中间
             pyautogui.click()   #模拟鼠标点击
-            pyautogui.sleep(1)
+            print("鼠标点击")
+            pyautogui.sleep(2)
         else:
             print(f'未找到图像路径为：{button_image}的按钮')
     except pyautogui.ImageNotFoundException:
         print(f'无法找到匹配的图像。请检查图像路径：{button_image}的准确性。')
 
+print("操作完成")
 pyautogui.alert(text='7-zip默认设置完成，手动检查一下吧', title='温馨提示', button='OK')
