@@ -7,7 +7,7 @@ chcp 65001
 cd /d "%~dp0"
 ::----------------------------------------------------------------------------------------------------------------
 :: 设置bat标题
-title  静默安装3.1（2024.7.18）
+title  静默安装3.1（2024.7.22）
 ::----------------------------------------------------------------------------------------------------------------
 echo ----------切换到当前目录----------
 :: 获取批处理文件所在的目录路径，并进入该目录  
@@ -100,12 +100,8 @@ powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 0
 
 
 echo ----------打开电源管理----------
-cd power_supply/dist
-start powercfg_setting.exe
-cd ../../
-cd /d "%~dp0"  
-echo 当前目录已更改为: %cd%  
-
+start powercfg_setting_keyboard.exe 
+echo 等待30秒完成操作
 timeout 30
 
 echo ----------打开磁盘管理，删除没必要的分区防止还有其他分区导致数据外露----------
@@ -159,45 +155,47 @@ echo.
 echo.
 ::----------------------------------------------------------------------------------------------------------------
 echo ------------------软件安装-----------------------
-@REM start /wait hPjeBME6V2khYZI3p-8bssXpQTdi9XPL.exe 
-@REM start /wait 7z2407-x64.exe /S
-@REM echo 安装成功7-zip
+start /wait hPjeBME6V2khYZI3p-8bssXpQTdi9XPL.exe 
+start /wait 7z2407-x64.exe /S
+echo 安装成功7-zip
 
 @REM echo 设置默认的7-zip中，设置中
 @REM start "" "C:\Program Files\7-Zip\7zFM.exe" 
 @REM echo 设置默认的7-zip完成
 echo 设置默认的7-zip，使用python脚本
-start 7zip/dist/7zip_default_setting.exe
+start 7zip_default_setting_keyboard.exe
+echo 等待30秒完成操作
+timeout 30
 
-@REM start /wait PotPlayerSetup64.exe /S
-@REM echo 安装成功PotPlayer（播放器）
+start /wait PotPlayerSetup64.exe /S
+echo 安装成功PotPlayer（播放器）
 
-@REM start /wait WeChatSetup.exe /S
-@REM echo 安装成功微信
+start /wait WeChatSetup.exe /S
+echo 安装成功微信
 
-@REM start /wait FeiLian_Windows_x86_v2.2.23_r1015_464e4f.exe /S
-@REM echo 安装成功飞连
+start /wait FeiLian_Windows_x86_v2.2.23_r1015_464e4f.exe /S
+echo 安装成功飞连
 
-@REM start /wait 7.6.0-Release.71210801.exe /S
-@REM echo 安装成功钉钉
+start /wait 7.6.0-Release.71210801.exe /S
+echo 安装成功钉钉
 
-@REM start /wait ChromeStandaloneSetup64.exe
-@REM echo 安装成功chrome浏览器
+start /wait ChromeStandaloneSetup64.exe
+echo 安装成功chrome浏览器
 
-@REM start /wait WPS_Setup_17145.exe /S -agreelicense
-@REM echo 安装成功wps
+start /wait WPS_Setup_17147.exe /S -agreelicense
+echo 安装成功wps
 
-@REM AcroRdrDCx642400220857_MUI\Setup.exe /sPB
-@REM echo 安装成功AcroRdrDCx 
+AcroRdrDCx642400220857_MUI\Setup.exe /sPB
+echo 安装成功AcroRdrDCx 
 
-@REM start /wait AcroRdrALSDx64_2300820421_all_DC.msi /passive
-@REM echo 安装成功 AcroRdrALSDx64 语言包
+start /wait AcroRdrALSDx64_2300820421_all_DC.msi /passive
+echo 安装成功 AcroRdrALSDx64 语言包
 
-@REM start /wait DingTalk_Pirnt.exe
-@REM echo 安装智能云钉钉打印机成功
+start /wait DingTalk_Pirnt.exe
+echo 安装智能云钉钉打印机成功
 
-@REM start /wait Setup[T1q358KV][6332a09e67259].exe
-@REM echo 安装成功360安全
+start /wait Setup[T1q358KV][6332a09e67259].exe
+echo 安装成功360安全
 
 ::----------------------------------------------------------------------------------------------------------------
 echo ------------获取序列号并且复制-------------------
