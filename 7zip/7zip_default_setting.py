@@ -3,7 +3,7 @@ import subprocess
 
 # 以管理员方式打开7-Zip
 print("打开7-zip")
-subprocess.Popen(['E:\\Program Files\\7-Zip\\7zFM.exe'], creationflags=subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.DETACHED_PROCESS)
+subprocess.Popen(['C:\\Program Files\\7-Zip\\7zFM.exe'], creationflags=subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.DETACHED_PROCESS)
 pyautogui.sleep(3)
 
 # 按下Alt+T 和 o  
@@ -37,7 +37,7 @@ button_images = [
 # 循环搜索屏幕上的每个按钮图像
 for button_image in button_images:
     try:
-        button_location = pyautogui.locateOnScreen(button_image)   #grayscale=False,confidence=0.7  设置可以提高图片是识别率，当然也会有误差，需要安装opencv-python库才能使用
+        button_location = pyautogui.locateOnScreen(button_image,grayscale=False,confidence=0.7)   #grayscale=False,confidence=0.7  设置可以提高图片是识别率，当然也会有误差，需要安装opencv-python库才能使用
         if button_location is not None:
             # 获取按钮的中心坐标
             center = pyautogui.center(button_location)
