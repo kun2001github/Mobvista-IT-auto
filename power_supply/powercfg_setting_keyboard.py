@@ -12,8 +12,8 @@ pyautogui.sleep(3)
 # 获取当前活动窗口的句柄
 active_window = pyautogui.getActiveWindow()
 
-# 最大化窗口
-active_window.maximize()
+# # 最大化窗口
+# active_window.maximize()
 
 def get_system_manufacturer():
     # 使用wmic命令获取系统制造商信息
