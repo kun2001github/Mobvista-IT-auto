@@ -16,8 +16,8 @@ pyautogui.sleep(4)
 # 获取当前活动窗口的句柄
 active_window = pyautogui.getActiveWindow()
 
-# 最大化窗口
-active_window.maximize()
+# # 最大化窗口
+# active_window.maximize()
 
 pyautogui.sleep(3)
 
