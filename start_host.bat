@@ -92,17 +92,17 @@ powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 0
 ::0：表示将待机超时时间设置为“永不”，即系统不会进入待机状态。
 ::----------------------------------------------------------------------------------------------------------------
 
-@REM setlocal
-@REM echo ----------打开电源管理----------
-@REM start powercfg.cpl
-@REM ::if %errorlevel% neq 0 echo 打开电源管理可能失败,请手动打开！
-@REM endlocal
-
-
+setlocal
 echo ----------打开电源管理----------
-start powercfg_setting_keyboard.exe 
-echo 等待30秒完成操作
-timeout 30
+start powercfg.cpl
+::if %errorlevel% neq 0 echo 打开电源管理可能失败,请手动打开！
+endlocal
+
+
+@REM echo ----------打开电源管理----------
+@REM start powercfg_setting_keyboard.exe 
+@REM echo 等待30秒完成操作
+@REM timeout 30
 
 echo ----------打开磁盘管理，删除没必要的分区防止还有其他分区导致数据外露----------
 start Diskmgmt.msc
@@ -164,8 +164,8 @@ echo 安装成功7-zip
 @REM echo 设置默认的7-zip完成
 echo 设置默认的7-zip，使用python脚本
 start 7zip_default_setting_keyboard.exe
-echo 等待30秒完成操作
-timeout 30
+echo 等待50秒完成操作
+timeout 50
 
 start /wait PotPlayerSetup64.exe /S
 echo 安装成功PotPlayer（播放器）

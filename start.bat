@@ -92,16 +92,16 @@ powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 0
 ::0：表示将待机超时时间设置为“永不”，即系统不会进入待机状态。
 ::----------------------------------------------------------------------------------------------------------------
 
-@REM setlocal
-@REM echo ----------打开电源管理----------
-@REM start powercfg.cpl
-@REM ::if %errorlevel% neq 0 echo 打开电源管理可能失败,请手动打开！
-@REM endlocal
-
+setlocal
 echo ----------打开电源管理----------
-start powercfg_setting_keyboard.exe
-echo 等待30秒完成操作
-timeout 30
+start powercfg.cpl
+::if %errorlevel% neq 0 echo 打开电源管理可能失败,请手动打开！
+endlocal
+
+@REM echo ----------打开电源管理----------
+@REM start powercfg_setting_keyboard.exe
+@REM echo 等待30秒完成操作
+@REM timeout 30
 
 echo ----------打开磁盘管理，删除没必要的分区防止还有其他分区导致数据外露----------
 start Diskmgmt.msc
@@ -140,7 +140,7 @@ echo ----------调整UAC级别更改计算机时通知我（不降低桌面亮�
 @REM echo.
 @REM start C:\WINDOWS\System32\UserAccountControlSettings.exe
 PowerShell -ExecutionPolicy Bypass -Command "& { .\UAC_level2.ps1 }"
-echo "设置UAC完成"
+echo "上面出现 0 和 5 说明设置UAC完成"
 ::----------------------------------------------------------------------------------------------------------------
 echo ----------显示桌面图标（计算机）----------
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v {20D04FE0-3AEA-1069-A2D8-08002B30309D} /t REG_DWORD /d 0 /f
@@ -162,8 +162,8 @@ echo 安装成功7-zip
 
 echo 使用python脚本设置7-zip默认
 start 7zip_default_setting_keyboard.exe
-echo 等待30秒完成操作
-timeout 30
+echo 等待50秒完成操作
+timeout 50
 
 start /wait PotPlayerSetup64.exe /S
 echo 安装成功PotPlayer（播放器）
@@ -201,10 +201,9 @@ echo ------------获取序列号并且复制-------------------
 wmic bios get serialnumber | findstr /V SerialNumber | clip
 if %errorlevel% neq 0 echo 序列包复制失败，请手动输入 （wmic bios get serialnumber | findstr /V SerialNumber） 获取序列号并且复制
 echo.
-echo 序列号（如果没有复制成功，请在下方手动复制即可）：
+echo 笔记本序列号（如果没有复制成功，请在下方手动复制即可）：
 wmic bios get serialnumber
 echo ------------笔记本：获取序列号并且复制命令-------------------
-echo  bios get serialnumber
 echo "wmic bios get serialnumber | findstr /V SerialNumber | clip" 
 echo.
 echo.

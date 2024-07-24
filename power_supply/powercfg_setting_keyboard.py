@@ -1,3 +1,4 @@
+# 有bug，惠普电脑可以，华为，联想，不行
 import pyautogui
 import os
 import subprocess
