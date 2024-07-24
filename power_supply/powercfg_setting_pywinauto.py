@@ -1,7 +1,9 @@
+from subprocess import Popen
+from pywinauto import Desktop
 from pywinauto.application import Application
-app = Application(backend="uia").start('notepad.exe')
 
-# describe the window inside Notepad.exe process
-dlg_spec = app.UntitledNotepad
-# wait till the window is really open
-actionable_dlg = dlg_spec.wait('visible')
+# 启动电源选项
+Popen('powercfg.cpl', shell=True)
+app = Application("win32").connect(handle=1444256)
+print(app)
+
