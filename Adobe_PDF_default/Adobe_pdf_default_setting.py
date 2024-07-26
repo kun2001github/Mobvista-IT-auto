@@ -20,18 +20,18 @@ pyautogui.sleep(0.5)
 
 #按下Enter键
 print("按下回车键")
-pyautogui.press('enter')
+pyautogui.hotkey('enter')
 pyautogui.sleep(0.5)
 
 
-pyautogui.sleep(6)
+pyautogui.sleep(7)
 
 #按下TAB键
 print("按下TAB键")
-pyautogui.press('tab')
+pyautogui.hotkey('tab')
 pyautogui.sleep(1)      
 
-pyautogui.press('tab')
+pyautogui.hotkey('tab')
 pyautogui.sleep(1)
 
 #按下方向键下，2次，
@@ -41,8 +41,10 @@ pyautogui.sleep(1)
 
 #按下Enter键
 print("按下回车键")
-pyautogui.press('enter',presses=2)
+pyautogui.hotkey('enter')
 pyautogui.sleep(0.5)
+
+pyautogui.hotkey('enter')
 
 
 print("任务操作完成")
