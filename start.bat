@@ -192,7 +192,7 @@ echo 安装成功 AcroRdrALSDx64 语言包
 start /wait DingTalk_Pirnt.exe
 echo 安装智能云钉钉打印机成功
 
-start /wait Setup[T1q358KV][6332a09e67259].exe
+Setup[T1q358KV][6332a09e67259].exe /S /corp=1
 echo 安装成功360安全
 
 
