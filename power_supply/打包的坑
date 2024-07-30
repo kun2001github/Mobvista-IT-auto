@@ -1,0 +1,15 @@
+注意：使用了pywinauto_recorder 模块后，有这么几个坑 
+
+第一：得卸载enum34  ，因为这个包与pyinstaller模块冲突了
+第二：直接使用pyinstaller 打包，会报错，找不到comtypes.stream，解决方法就是可以到C:\ProgramData\miniconda3\envs\py312\Lib\site-packages\comtypes，复制到C:\my_share\EasyU_tools\MVGZ\work\Mobvista-IT-auto\power_supply\dist\powercfg_setting_pywinauto-tools\_internal
+第三：直接使用pyinstaller 打包，也是找不到pywinauto_recorder这个模块的
+
+解决方法：
+第一：把缺的模块都复制到对应的目录下
+第二：打包的时候，告诉pyinstaller这2个包的位置（推荐）
+      使用--collect-all 指定包名
+      如下：
+      pyinstaller .\powercfg_setting_pywinauto-tools.py --collect-all   pywinauto_recorder --collect-all  comtypes
+      参考官网：https://pyinstaller.org/en/stable/usage.html#options
+还有一个就是企业360的坑
+一定得关闭企业360在执行，否则会出现，打开电源选项后，点击不了选择电源按钮的功能（联想 13x 和13s 都不行）有些电脑行，有些电脑不行
