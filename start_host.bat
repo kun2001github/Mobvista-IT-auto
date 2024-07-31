@@ -7,7 +7,7 @@ chcp 65001
 cd /d "%~dp0"
 ::----------------------------------------------------------------------------------------------------------------
 :: 设置bat标题
-title  静默安装3.1（2024.7.22）
+title  静默安装3.5（2024.7.31）
 ::----------------------------------------------------------------------------------------------------------------
 echo ----------切换到当前目录----------
 :: 获取批处理文件所在的目录路径，并进入该目录  
@@ -101,8 +101,8 @@ powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 0
 
 echo ----------打开电源管理并打开系统更新----------
 start windows_update_and_powercfg_setting.exe
-echo 等待40秒完成操作
-timeout 40
+echo 等待50秒完成操作
+timeout 50
 
 echo ----------打开磁盘管理，删除没必要的分区防止还有其他分区导致数据外露----------
 start Diskmgmt.msc
@@ -164,8 +164,8 @@ echo 安装成功7-zip
 @REM echo 设置默认的7-zip完成
 echo 设置默认的7-zip，使用python脚本
 start 7zip_default_setting_keyboard.exe
-echo 等待40秒完成操作
-timeout 40
+echo 等待50秒完成操作
+timeout 50
 
 start /wait PotPlayerSetup64.exe /S
 echo 安装成功PotPlayer（播放器）
@@ -192,7 +192,7 @@ start /wait AcroRdrALSDx64_2300820421_all_DC.msi /passive
 echo 安装成功 AcroRdrALSDx64 语言包
 
 echo -------启动AcroRdrDCx 设置默认PDF-------------
-"C:\Users\Public\Desktop\Adobe Acrobat.lnk"
+start "" "C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"
 
 start /wait DingTalk_Pirnt.exe
 echo 安装智能云钉钉打印机成功
