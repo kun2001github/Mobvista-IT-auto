@@ -21,3 +21,4 @@
 2024.7.22 更新培训PPT 2024.07.19
 2024.7.29 更新钉钉 7.6.0-Release.72310802.exe
 2024.7.29 更新入职培训的PPT和PDF
+2024.7.31 更新了使用windows_update_and_powercfg_setting.exe脚本设置系统更新和电源选项，以及打开Acrobat手动设置默认的PDF打开
