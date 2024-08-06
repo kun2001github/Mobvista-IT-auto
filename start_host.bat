@@ -29,10 +29,10 @@ netsh wlan connect name="test"
 if %errorlevel% neq 0 echo 连接Wi-Fi网络失败,wifi名错误，或者是配置文件不存在！
 echo.
 
-echo 连接信息...
-netsh wlan show networks
-echo.
-echo.
+@REM echo 连接信息...
+@REM netsh wlan show networks
+@REM echo.
+@REM echo.
 
 ::----------------------------------------------------------------------------------------------------------------
 echo ----------设置壁纸----------
@@ -171,10 +171,6 @@ echo 安装成功7-zip
 @REM echo 设置默认的7-zip中，设置中
 @REM start "" "C:\Program Files\7-Zip\7zFM.exe" 
 @REM echo 设置默认的7-zip完成
-echo 设置默认的7-zip，使用python脚本
-start 7zip_default_setting_keyboard.exe
-echo 等待50秒完成操作
-timeout 50
 
 start /wait PotPlayerSetup64.exe /S
 echo 安装成功PotPlayer（播放器）
@@ -200,11 +196,23 @@ echo 安装成功AcroRdrDCx
 start /wait AcroRdrALSDx64_2300820421_all_DC.msi /passive
 echo 安装成功 AcroRdrALSDx64 语言包
 
-echo -------启动AcroRdrDCx 设置默认PDF-------------
-start "" "C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"
-
 start /wait DingTalk_Pirnt.exe
 echo 安装智能云钉钉打印机成功
+
+echo --------关闭钉钉，谷歌浏览器，wps，以及去除wps一些选项------------------
+taskkill -f -im DingTalk.exe
+taskkill -f -im chrome.exe
+taskkill -f -im wps.exe
+reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{EEEEFCF7-867B-4FA2-9ABD-884CF531B600}" /f
+reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{EEEEFCF7-867B-4FA2-9ABD-884CF531B602}" /f
+
+
+@REM echo -------启动AcroRdrDCx 设置默认PDF-------------
+@REM start "" "C:\Program Files\Adobe\Acrobat DC\Acrobat\ShowAppPickerForPDF.exe"
+echo 使用python脚本设置7-zip默认和PDF默认
+start 7Zip_and_PDF_default_setting_keyboard.exe
+echo 等待40秒完成操作
+timeout 40
 
 Setup[T1q358KV][6332a09e67259].exe /S /corp=1
 echo 安装成功360安全
@@ -235,7 +243,7 @@ set "files[2]=C:\Program Files\Google\Chrome\Application\chrome.exe"
 set "files[3]=C:\Program Files\7-Zip\7zFM.exe"  
 set "files[4]=C:\Program Files\DAUM\PotPlayer\PotPlayerMini64.exe"  
 set "files[5]=C:\Program Files\CorpLink\current\Client\CorpLink.exe"  
-set "files[6]=C:\Program Files (x86)\Kingsoft Office Software\WPS Office\ksolaunch.exe"
+set "files[6]=%USERPROFILE%\AppData\Local\kingsoft\WPS Office\ksolaunch.exe"
 set "files[7]=C:\Program Files (x86)\360\360Safe\360Safe.exe"  
 :: AcroRdrDC 和 智能云打印插件，暂时找不到包的位置
 
