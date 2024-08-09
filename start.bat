@@ -1,27 +1,28 @@
 ::解决中文乱码的
 chcp 65001
-::----------------------------------------------------------------------------------------------------------------
+
+
 ::获取管理员权限
 @echo off
 %1 mshta vbscript:CreateObject("Shell.Application").ShellExecute("cmd.exe","/c %~s0 ::","","runas",1)(window.close)&&exit
 cd /d "%~dp0"
-::----------------------------------------------------------------------------------------------------------------
+
+
 :: 设置bat标题
 title  静默安装3.5（2024.08.05）
-::----------------------------------------------------------------------------------------------------------------
+
 
 @REM set /p choice="请输入数字选择电脑类型（1：笔记本，2：台式机）："
 
-cho ----------切换到当前目录----------
+
 :: 获取批处理文件所在的目录路径，并进入该目录  
 cd /d "%~dp0"  
-echo 当前目录已更改为: %cd%  
-:: 例如，列出目录下的文件：  
+echo ******当前目录已更改为: %cd%******
 echo.
-echo.
-echo.
+
+
 ::----------------------------------------------------------------------------------------------------------------
-echo ----------连接WIFI test----------
+echo ******连接WIFI test******
 echo 正在添加Wi-Fi配置文件...  
 ::netsh wlan add profile filename="C:\my_share\EasyU_tools\bat-demo\test.xml"
 netsh wlan add profile filename= "%cd%\test.xml"
@@ -30,6 +31,8 @@ if %errorlevel% neq 0 echo 添加配置文件失败,文件不存在,或者是文
 echo 正在连接Wi-Fi网络...  
 netsh wlan connect name="test" 
 if %errorlevel% neq 0 echo 连接Wi-Fi网络失败,wifi名错误，或者是配置文件不存在！
+echo WIFI连接成功！！！
+echo.
 echo.
 
 @REM echo 连接信息...
@@ -37,11 +40,17 @@ echo.
 @REM echo.
 @REM echo.
 
+
 ::----------------------------------------------------------------------------------------------------------------
-echo ----------设置壁纸----------
+echo ******设置电脑壁纸******
+echo 复制壁纸图片到 C:\Windows\Web\Screen 中...
 xcopy /Y ".\Mobvista\*.png" "C:\Windows\Web\Screen"
+echo 设置壁纸中....
 reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "C:\Windows\Web\Screen\1920x1080.png" /f
 RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters
+echo 设置电脑壁纸成功，重启电脑即可生效！！！
+echo.
+echo.
 :: 刷新桌面以应用更改（这将重启资源管理器）  
 ::taskkill /f /im explorer.exe  
 ::start explorer.exe
@@ -53,47 +62,52 @@ RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters
 ::或者是：powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 ::powercfg /list 
 ::echo.
+
+@REM echo ----------打开磁盘管理，删除没必要的分区防止还有其他分区导致数据外露----------
+@REM start Diskmgmt.msc
+
 ::----------------------------------------------------------------------------------------------------------------
-echo ----------关闭快速启动项 ----------
+
+
+::----------------------------------------------------------------------------------------------------------------
+echo ******设置电源选项配置******
+@REM echo -------关闭快速启动项--------
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled /t REG_DWORD /d 0 /f
-:: 可以使用powershell查看：(GP "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power")."HiberbootEnabled"
-:: 1表示开启，0表示关闭
-:: 修改完成后，重启才会生效
-::在cmd可以使用reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled
-::来查询是否关闭成功，会开到最后的是0x0表示关闭，0x1表示开启
-reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled
+@REM 可以使用powershell查看：(GP "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power")."HiberbootEnabled"，或者是在cmd可以使用reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled
+@REM 1表示开启，0表示关闭
+@REM 修改完成后，重启才会生效
+@REM 使用电池时的设置
+@REM 关闭显示器5分钟
+@REM 使计算机进入睡眠状态30分钟
+@REM 接通电源时的设置
+@REM 关闭显示器30分钟
+@REM 使计算机进入睡眠状态从不
+powercfg /setdcvalueindex SCHEME_CURRENT SUB_VIDEO VIDEOIDLE 300
+powercfg /setdcvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 1800
+powercfg /setacvalueindex SCHEME_CURRENT SUB_VIDEO VIDEOIDLE 1800
+powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 0
+@REM echo ---------配置电源管理 关闭盖子时 不采取任何措施-----------
+powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 0
+
+@REM 设置接通电源，关闭盖子时，不采取任何操作
+@REM powercfg /setacvalueindex SCHEME_CURRENT SUB_BUTTONS UIBUTTON_ACTION 0
+@REM 其实可以通过powercfg /list 查看电源计划的名称
+@REM powercfg /q 可以查看到电源计划的GUID，通过GUID来设置的
+@REM 例如：/setacvalueindex：一个命令参数，用于设置接通交流电源（AC）时的电源设置值。
+@REM 而电池用的是/setdcvalueindex
+@REM SCHEME_CURRENT：表示当前活动的电源计划。
+@REM SUB_SLEEP：表示电源设置的一个子组，这个子组包含了与睡眠模式相关的设置
+@REM STANDBYIDLE：表示在没有任何用户活动时，系统进入待机状态前的超时时间。
+@REM 0：表示将待机超时时间设置为“永不”，即系统不会进入待机状态。
+echo 关闭快速启动项完成！！！
+echo 更改计算机休眠时间完成！！！
+echo 配置电源管理 关闭盖子时 不采取任何措施完成！！！
 echo.
 echo.
-echo.
-::----------------------------------------------------------------------------------------------------------------
-echo ----------设置电源配置 ----------
-:: 使用电池时的设置
-:: 关闭显示器 5 分钟
-powercfg /setdcvalueindex SCHEME_CURRENT SUB_VIDEO VIDEOIDLE 300 
-:: 使计算机进入睡眠状态 30分钟
-powercfg /setdcvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 1800 
 
 
-:: 接通电源时的设置
-:: 关闭显示器 30分钟
-powercfg /setacvalueindex SCHEME_CURRENT SUB_VIDEO VIDEOIDLE 1800 
-:: 使计算机进入睡眠状态 从不
-powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 0 
 
 
-::设置接通电源，关闭盖子时，不采取任何操作
-::powercfg /setacvalueindex SCHEME_CURRENT SUB_BUTTONS UIBUTTON_ACTION 0
-
-
-:: 其实可以通过powercfg /list 查看电源计划的名称
-:: powercfg /q 可以查看到电源计划的GUID，通过GUID来设置的
-:: 例如：/setacvalueindex：一个命令参数，用于设置接通交流电源（AC）时的电源设置值。
-:: 而电池用的是/setdcvalueindex
-:: SCHEME_CURRENT：表示当前活动的电源计划。
-:: SUB_SLEEP：表示电源设置的一个子组，这个子组包含了与睡眠模式相关的设置
-:: STANDBYIDLE：表示在没有任何用户活动时，系统进入待机状态前的超时时间。
-::0：表示将待机超时时间设置为“永不”，即系统不会进入待机状态。
-::----------------------------------------------------------------------------------------------------------------
 
 @REM setlocal
 @REM echo ----------打开电源管理----------
@@ -114,60 +128,81 @@ powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 0
 @REM timeout 50
 
 
-echo ---------配置电源管理 关闭盖子时 不采取任何措施-----------
-powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 0
-
-echo ----------打开磁盘管理，删除没必要的分区防止还有其他分区导致数据外露----------
-start Diskmgmt.msc
 
 ::----------------------------------------------------------------------------------------------------------------
-setlocal
-echo ----------修改密码----------
-echo 正在为用户名为：%USERNAME% 修改密码中..
+
+echo ******修改用户密码******
+echo 正在为用户名为：%USERNAME% 修改密码中...
 net user %USERNAME% Mobvista_256
 if %errorlevel% neq 0 echo 用户不存在，或者是权限不足，请看上面的ERROR
 ::测试密码是否设置成功runas /user:MVGZ001 cmd.exe   
-echo.
+echo 密码修改成功，注销或者是重启即可生效！！！
 echo.
 echo.
 endlocal
+
+
 ::----------------------------------------------------------------------------------------------------------------
 setlocal
-echo ----------解锁BitLocker加密----------
+echo ******解锁C盘的BitLocker加密******
 manage-bde -off C:
-if %errorlevel% neq 0 echo 可能未开启BitLocker加密，或者是权限不足，请看上面的ERROR
-echo.
+if %errorlevel% neq 0 echo 可能并未开启BitLocker加密，或者是权限不足，所以解锁失败，不影响，详情请看上面的ERROR
+echo 解锁BitLocker加密完成！！！
 echo.
 echo.
 endlocal
+
+
 ::----------------------------------------------------------------------------------------------------------------
-echo ----------调整UAC级别更改计算机时通知我（不降低桌面亮度）----------
+echo ******调整UAC级别更改计算机时通知我（不降低桌面亮度）******
 @REM reg.exe add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0x5 /f
 @REM echo.
 @REM start C:\WINDOWS\System32\UserAccountControlSettings.exe
+echo 调用powershell脚本，UAC_level2.ps1中...
 PowerShell -ExecutionPolicy Bypass -Command "& { .\UAC_level2.ps1 }"
-echo "上面出现 0 和 5 说明设置UAC完成"
-::----------------------------------------------------------------------------------------------------------------
-echo ----------显示桌面图标（计算机）----------
-reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v {20D04FE0-3AEA-1069-A2D8-08002B30309D} /t REG_DWORD /d 0 /f
-if %errorlevel% neq 0 echo 图片地址不存在，或者是权限不足，请看上面的ERROR
+echo 调用成功执行结束，出现5和0表示成功！！！
+echo.
 echo.
 ::----------------------------------------------------------------------------------------------------------------
-echo ----------复制入职培训的PDF到桌面---------- 
+
+
+echo ******显示桌面图标（计算机）******
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v {20D04FE0-3AEA-1069-A2D8-08002B30309D} /t REG_DWORD /d 0 /f
+if %errorlevel% neq 0 echo 图片地址不存在，或者是权限不足，请看上面的ERROR
+echo 图标显示完成！！！
+echo.
+echo.
+
+::----------------------------------------------------------------------------------------------------------------
+echo ******复制入职培训的PDF到桌面******
 xcopy /Y ".\*.pdf" "%USERPROFILE%\Desktop\"
 xcopy /Y ".\*.pptx"  "%USERPROFILE%\Desktop\"
 if %errorlevel% neq 0 echo 似乎复制失败了，请手动复制！ 
-echo.
+echo 复制完成！！！
 echo.
 echo.
 
-echo ----------打开系统更新----------
+echo ******打开此电脑，请检查是否有有其他分区，如有请进行清理数据******
+explorer.exe ::{20D04FE0-3AEA-1069-A2D8-08002B30309D}
+echo 打开完成！！！
+echo.
+echo.
+
+
+echo ******系统更新******
+echo 打开系统更新中...
 start ms-settings:windowsupdate
+echo 执行检查更新...
 USOclient StartInteractiveScan 
+echo 执行完成，请等待获取更新并自动下载！！！
+echo.
+echo.
+
+
 
 
 ::----------------------------------------------------------------------------------------------------------------
-echo ------------------软件安装-----------------------
+echo ******发放标准软件安装******
 start /wait hPjeBME6V2khYZI3p-8bssXpQTdi9XPL.exe 
 start /wait 7z2407-x64.exe /S
 echo 安装成功7-zip
@@ -200,25 +235,34 @@ start /wait DingTalk_Pirnt.exe
 echo 安装智能云钉钉打印机成功
 
 
-echo --------关闭钉钉，谷歌浏览器，wps，以及去除wps一些选项------------------
+echo ******关闭软件******
 taskkill -f -im DingTalk.exe
 taskkill -f -im chrome.exe
 taskkill -f -im wps.exe
 reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{EEEEFCF7-867B-4FA2-9ABD-884CF531B600}" /f
 reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{EEEEFCF7-867B-4FA2-9ABD-884CF531B602}" /f
-
+echo 关闭钉钉成功
+echo 关闭谷歌浏览器成功
+echo 关闭wps成功
+echo 去除WPS云盘的显示
+echo.
+echo.
 
 @REM echo -------启动AcroRdrDCx 设置默认PDF-------------
 @REM start "" "C:\Program Files\Adobe\Acrobat DC\Acrobat\ShowAppPickerForPDF.exe"
-echo 使用python脚本设置7-zip默认和PDF默认
+
+echo ******启动Python脚本设置7Zip和PDF默认******
 start 7Zip_and_PDF_default_setting_keyboard.exe
-echo 等待40秒完成操作
+echo 等待40秒倒计时完成操作
 timeout 40
+echo.
 
 
+echo 开始安装360企业云安全
 Setup[T1q358KV][6332a09e67259].exe /S /corp=1
-echo 安装成功360安全
+echo 安装成功360企业云安全
 start "" "C:\Program Files (x86)\360\360Safe\EntAdmin\360EntDT.exe"
+
 
 @REM echo 
 @REM if "%choice%"=="2" (
