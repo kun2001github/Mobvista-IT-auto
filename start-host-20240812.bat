@@ -224,8 +224,7 @@ echo 安装成功钉钉
 
 start /wait ChromeStandaloneSetup64.exe
 echo 安装成功chrome浏览器
-taskkill -f -im DingTalk.exe
-echo 关闭钉钉成功
+
 
 start /wait WPS_Setup_17147.exe /S -agreelicense
 echo 安装成功wps
