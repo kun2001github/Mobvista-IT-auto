@@ -246,8 +246,11 @@ taskkill -f -im wps.exe
 reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{EEEEFCF7-867B-4FA2-9ABD-884CF531B600}" /f
 reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{EEEEFCF7-867B-4FA2-9ABD-884CF531B602}" /f
 echo 关闭钉钉成功
+
 echo 关闭谷歌浏览器成功
+
 echo 关闭wps成功
+
 echo 去除WPS云盘的显示
 echo.
 echo.
