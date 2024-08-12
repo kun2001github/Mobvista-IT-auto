@@ -173,6 +173,7 @@ echo.
 echo ******隐藏设置中恢复选项******
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "SettingsPageVisibility" /t REG_SZ /d "hide:recovery" /f
 echo 设置中的恢复选项隐藏成功！！！
+
 @REM 如需显示设置中的恢复选项则运行reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "SettingsPageVisibility" /f
 echo.
 echo.
