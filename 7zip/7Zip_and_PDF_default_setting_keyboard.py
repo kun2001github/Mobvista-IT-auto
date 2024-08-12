@@ -106,7 +106,7 @@ pyautogui.press('enter')
 pyautogui.sleep(0.5)
 print("--------默认的PDF设置完成---------")
 
-input("请按任意键继续")
+# input("请按任意键继续")
 
 
 

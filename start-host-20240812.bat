@@ -9,7 +9,7 @@ cd /d "%~dp0"
 
 
 :: 设置bat标题
-title  静默安装3.5（2024.08.05）
+title  静默安装3.5（2024.08.12）
 
 
 @REM set /p choice="请输入数字选择电脑类型（1：笔记本，2：台式机）："
@@ -75,36 +75,33 @@ echo ******设置电源选项配置******
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled /t REG_DWORD /d 0 /f
 @REM 可以使用powershell查看：(GP "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power")."HiberbootEnabled"，或者是在cmd可以使用reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled
 @REM 1表示开启，0表示关闭
-@REM 修改完成后，重启才会生效
-@REM 使用电池时的设置
-@REM 关闭显示器5分钟
-@REM 使计算机进入睡眠状态30分钟
-@REM 接通电源时的设置
-@REM 关闭显示器30分钟
-@REM 使计算机进入睡眠状态从不
+
+@REM 使用电池时的设置》关闭显示器5分钟
 powercfg /setdcvalueindex SCHEME_CURRENT SUB_VIDEO VIDEOIDLE 300
+
+@REM 使用电池时的设置》使计算机进入睡眠状态30分钟
 powercfg /setdcvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 1800
+
+@REM 接通电源时的设置》关闭显示器30分钟
 powercfg /setacvalueindex SCHEME_CURRENT SUB_VIDEO VIDEOIDLE 1800
+
+@REM 接通电源时的设置》使计算机进入睡眠状态从不
 powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 0
-@REM echo ---------配置电源管理 关闭盖子时 不采取任何措施-----------
+
+@REM ---------配置电源管理 关闭盖子时 不采取任何措施-----------
 powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 0
 
-@REM 设置接通电源，关闭盖子时，不采取任何操作
-@REM powercfg /setacvalueindex SCHEME_CURRENT SUB_BUTTONS UIBUTTON_ACTION 0
-@REM 其实可以通过powercfg /list 查看电源计划的名称
-@REM powercfg /q 可以查看到电源计划的GUID，通过GUID来设置的
-@REM 例如：/setacvalueindex：一个命令参数，用于设置接通交流电源（AC）时的电源设置值。
-@REM 而电池用的是/setdcvalueindex
 @REM SCHEME_CURRENT：表示当前活动的电源计划。
-@REM SUB_SLEEP：表示电源设置的一个子组，这个子组包含了与睡眠模式相关的设置
-@REM STANDBYIDLE：表示在没有任何用户活动时，系统进入待机状态前的超时时间。
+
 @REM 0：表示将待机超时时间设置为“永不”，即系统不会进入待机状态。
+
 echo 关闭快速启动项完成！！！
+
 echo 更改计算机休眠时间完成！！！
+
 echo 配置电源管理 关闭盖子时 不采取任何措施完成！！！
 echo.
 echo.
-
 
 
 
@@ -169,7 +166,14 @@ echo.
 echo ******显示桌面图标（计算机）******
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v {20D04FE0-3AEA-1069-A2D8-08002B30309D} /t REG_DWORD /d 0 /f
 if %errorlevel% neq 0 echo 图片地址不存在，或者是权限不足，请看上面的ERROR
-echo 图标显示完成！！！
+echo 显示此电脑图标完成！！！
+echo.
+echo.
+
+echo ******隐藏设置中恢复选项******
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "SettingsPageVisibility" /t REG_SZ /d "hide:recovery" /f
+echo 设置中的恢复选项隐藏成功！！！
+@REM 如需显示设置中的恢复选项则运行reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "SettingsPageVisibility" /f
 echo.
 echo.
 
@@ -178,13 +182,13 @@ echo ******复制入职培训的PDF到桌面******
 xcopy /Y ".\*.pdf" "%USERPROFILE%\Desktop\"
 xcopy /Y ".\*.pptx"  "%USERPROFILE%\Desktop\"
 if %errorlevel% neq 0 echo 似乎复制失败了，请手动复制！ 
-echo 复制完成！！！
+echo 入职培训PDF复制完成！！！
 echo.
 echo.
 
 echo ******打开此电脑，请检查是否有有其他分区，如有请进行清理数据******
 explorer.exe ::{20D04FE0-3AEA-1069-A2D8-08002B30309D}
-echo 打开完成！！！
+echo 打开此电脑完成，请手动检查是否有需要格式化的分区！！！
 echo.
 echo.
 
@@ -197,8 +201,6 @@ USOclient StartInteractiveScan
 echo 执行完成，请等待获取更新并自动下载！！！
 echo.
 echo.
-
-
 
 
 ::----------------------------------------------------------------------------------------------------------------
@@ -221,6 +223,8 @@ echo 安装成功钉钉
 
 start /wait ChromeStandaloneSetup64.exe
 echo 安装成功chrome浏览器
+taskkill -f -im DingTalk.exe
+echo 关闭钉钉成功
 
 start /wait WPS_Setup_17147.exe /S -agreelicense
 echo 安装成功wps
@@ -255,6 +259,7 @@ echo ******启动Python脚本设置7Zip和PDF默认******
 start 7Zip_and_PDF_default_setting_keyboard.exe
 echo 等待40秒倒计时完成操作
 timeout 40
+echo.
 echo.
 
 
@@ -335,8 +340,27 @@ netsh wlan delete profile test
 if %errorlevel% neq 0 echo 已忘记！
 echo.
 echo.
-echo.
 
+echo ******请选择操作******：
 
-echo 按2次回车键即可重启哦 & pause pause
+echo ******1. 重启******
+
+echo ******2. 关机******
+
+set /p userinput=请输入选项（1或2）并按回车键：
+
+if %userinput%==1 goto restart
+if %userinput%==2 goto shutdown
+echo 输入无效，请输入1或2。
+goto end
+
+:restart
 shutdown /r /t 0
+goto end
+
+:shutdown
+shutdown /s /t 0
+goto end
+
+:end
+
