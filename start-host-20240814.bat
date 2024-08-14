@@ -9,7 +9,7 @@ cd /d "%~dp0"
 
 
 :: 设置bat标题
-title  静默安装3.5（2024.08.12）
+title  静默安装3.5（2024.08.14）
 
 @REM echo ******请选择操作你的电脑类型******：
 
@@ -27,12 +27,12 @@ echo ******当前目录已更改为: %cd%******
 echo.
 echo.
 
-echo ******安装/更新WIFI驱动以及蓝牙驱动******
-WiFi-23.60.1-Driver64-Win10-Win11.exe -q -s
-BT-23.60.0-64UWD-Win10-Win11.exe /qn
-echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
-echo.
-echo.
+@REM echo ******安装/更新WIFI驱动以及蓝牙驱动******
+@REM WiFi-23.60.1-Driver64-Win10-Win11.exe -q -s
+@REM BT-23.60.0-64UWD-Win10-Win11.exe /qn
+@REM echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
+@REM echo.
+@REM echo.
 
 ::----------------------------------------------------------------------------------------------------------------
 echo ******连接WIFI test******
@@ -291,21 +291,21 @@ start "" "C:\Program Files (x86)\360\360Safe\EntAdmin\360EntDT.exe"
 @REM goto end
 
 @REM :notebook
-echo ******获取笔记本序列号并且复制******
-wmic bios get serialnumber | findstr /V SerialNumber | clip
-echo 笔记本序列号（如果没有复制成功，请在下方手动复制即可）：
-wmic bios get serialnumber
-echo ******笔记本：获取序列号并且复制命令******
-echo "wmic bios get serialnumber | findstr /V SerialNumber | clip" 
+@REM echo ******获取笔记本序列号并且复制******
+@REM wmic bios get serialnumber | findstr /V SerialNumber | clip
+@REM echo 笔记本序列号（如果没有复制成功，请在下方手动复制即可）：
+@REM wmic bios get serialnumber
+@REM echo ******笔记本：获取序列号并且复制命令******
+@REM echo "wmic bios get serialnumber | findstr /V SerialNumber | clip" 
 @REM goto end
 
 @REM :tablemodel
-@REM echo ******台式获取序列号并且复制******
-@REM wmic baseboard  get serialnumber | findstr /V SerialNumber | clip
-@REM echo 序列号（如果没有复制成功，请在下方手动复制即可）：
-@REM wmic baseboard  get serialnumber
-@REM echo ******台式：获取序列号并且复制命令******
-@REM echo "wmic baseboard  get serialnumber | findstr /V SerialNumber | clip"
+echo ******台式获取序列号并且复制******
+wmic baseboard  get serialnumber | findstr /V SerialNumber | clip
+echo 序列号（如果没有复制成功，请在下方手动复制即可）：
+wmic baseboard  get serialnumber
+echo ******台式：获取序列号并且复制命令******
+echo "wmic baseboard  get serialnumber | findstr /V SerialNumber | clip"
 @REM goto end
 
 @REM :end

@@ -9,17 +9,30 @@ cd /d "%~dp0"
 
 
 :: 设置bat标题
-title  静默安装3.5（2024.08.12）
+title  静默安装3.5（2024.08.14）
 
+@REM echo ******请选择操作你的电脑类型******：
 
-@REM set /p choice="请输入数字选择电脑类型（1：笔记本，2：台式机）："
+@REM echo ******1. 笔记本******
 
+@REM echo ******2. 台式******
+
+@REM set /p choice=请输入选项（1或2）并按回车键：
+
+@REM echo.
 
 :: 获取批处理文件所在的目录路径，并进入该目录  
 cd /d "%~dp0"  
 echo ******当前目录已更改为: %cd%******
 echo.
+echo.
 
+echo ******安装/更新WIFI驱动以及蓝牙驱动******
+WiFi-23.60.1-Driver64-Win10-Win11.exe -q -s
+BT-23.60.0-64UWD-Win10-Win11.exe /qn
+echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
+echo.
+echo.
 
 ::----------------------------------------------------------------------------------------------------------------
 echo ******连接WIFI test******
@@ -225,7 +238,6 @@ echo 安装成功钉钉
 start /wait ChromeStandaloneSetup64.exe
 echo 安装成功chrome浏览器
 
-
 start /wait WPS_Setup_17147.exe /S -agreelicense
 echo 安装成功wps
 
@@ -251,7 +263,7 @@ echo 关闭谷歌浏览器成功
 
 echo 关闭wps成功
 
-echo 去除WPS云盘的显示
+echo 去除（隐藏）WPS云盘在此电脑的显示
 echo.
 echo.
 
@@ -266,34 +278,37 @@ echo.
 echo.
 
 
-echo 开始安装360企业云安全
+echo 开始安装360企业云安全...
 Setup[T1q358KV][6332a09e67259].exe /S /corp=1
 echo 安装成功360企业云安全
 start "" "C:\Program Files (x86)\360\360Safe\EntAdmin\360EntDT.exe"
 
 
-@REM echo 
-@REM if "%choice%"=="2" (
-@REM     echo ------------获取台式机序列号并且复制-------------------
-@REM     wmic baseboard  get serialnumber | findstr /V SerialNumber | clip
-@REM     echo 序列号（如果没有复制成功，请在下方手动复制即可）：
-@REM     wmic baseboard  get serialnumber
-@REM     echo ------------台式机：获取序列号并且复制命令-------------------
-@REM     echo baseboard  get serialnumber
-@REM     echo "wmic baseboard  get serialnumber | findstr /V SerialNumber | clip" 
-@REM ) else if "%choice%"=="1" (
+@REM ::判断对应的类型，匹配不同的复制序列号
+@REM if %choice%==1 goto notebook
+@REM if %choice%==2 goto tablemodel
+@REM echo 输入无效，请输入1或2。
+@REM goto end
 
-echo ------------获取笔记本序列号并且复制-------------------
+@REM :notebook
+echo ******获取笔记本序列号并且复制******
 wmic bios get serialnumber | findstr /V SerialNumber | clip
 echo 笔记本序列号（如果没有复制成功，请在下方手动复制即可）：
 wmic bios get serialnumber
-echo ------------笔记本：获取序列号并且复制命令-------------------
+echo ******笔记本：获取序列号并且复制命令******
 echo "wmic bios get serialnumber | findstr /V SerialNumber | clip" 
+@REM goto end
 
-@REM ) else (
-@REM     echo 输入无效，请重新启动，输入1或2。)
+@REM :tablemodel
+@REM echo ******台式获取序列号并且复制******
+@REM wmic baseboard  get serialnumber | findstr /V SerialNumber | clip
+@REM echo 序列号（如果没有复制成功，请在下方手动复制即可）：
+@REM wmic baseboard  get serialnumber
+@REM echo ******台式：获取序列号并且复制命令******
+@REM echo "wmic baseboard  get serialnumber | findstr /V SerialNumber | clip"
+@REM goto end
 
-::----------------------------------------------------------------------------------------------------------------
+@REM :end
 
 echo.
 echo.
@@ -322,9 +337,9 @@ set "fileCount=8"
 for /L %%i in (0,1,%fileCount%) do (  
     set "targetFile=!files[%%i]!"  
     if exist "!targetFile!" (  
-        echo 文件 !targetFile! 已成功安装。  
+        echo 文件 !targetFile! 已成功安装。 
     ) else (  
-        echo 文件 !targetFile! 未找到，可能未安装！！！！！！ 
+        echo 文件 !targetFile! 未找到，可能未安装！！！！！
     )  
 )  
 endlocal
@@ -344,7 +359,7 @@ if %errorlevel% neq 0 echo 已忘记！
 echo.
 echo.
 
-echo ******请选择操作******：
+echo ******请选择对应的操作******：
 
 echo ******1. 重启******
 
