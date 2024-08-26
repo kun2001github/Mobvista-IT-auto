@@ -9,7 +9,7 @@ cd /d "%~dp0"
 
 
 :: 设置bat标题
-title  静默安装3.5（2024.08.14）
+title  静默安装3.5
 
 @REM echo ******请选择操作你的电脑类型******：
 
@@ -28,8 +28,9 @@ echo.
 echo.
 
 echo ******安装/更新WIFI驱动以及蓝牙驱动******
-WiFi-23.60.1-Driver64-Win10-Win11.exe -q -s
-BT-23.60.0-64UWD-Win10-Win11.exe /qn
+echo **更新蓝牙可能会重启电脑，重启电脑后再次执行脚本即可**
+WiFi-23.70.2-Driver64-Win10-Win11.exe -q -s
+BT-23.70.3-64UWD-Win10-Win11.exe/qn
 echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
 echo.
 echo.
@@ -232,7 +233,7 @@ echo 安装成功微信
 start /wait FeiLian_Windows_x86_v2.2.23_r1015_464e4f.exe /S
 echo 安装成功飞连
 
-start /wait 7.6.0-Release.72310802.exe /S
+start /wait 7.6.10-Release.82010807.exe /S
 echo 安装成功钉钉
 
 start /wait ChromeStandaloneSetup64.exe
@@ -240,6 +241,9 @@ echo 安装成功chrome浏览器
 
 start /wait WPS_Setup_17147.exe /S -agreelicense
 echo 安装成功wps
+
+echo 关闭钉钉程序
+taskkill -f -im DingTalk.exe
 
 AcroRdrDCx642400220857_MUI\Setup.exe /sPB
 echo 安装成功AcroRdrDCx 
@@ -252,12 +256,10 @@ echo 安装智能云钉钉打印机成功
 
 
 echo ******关闭软件******
-taskkill -f -im DingTalk.exe
 taskkill -f -im chrome.exe
 taskkill -f -im wps.exe
 reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{EEEEFCF7-867B-4FA2-9ABD-884CF531B600}" /f
 reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{EEEEFCF7-867B-4FA2-9ABD-884CF531B602}" /f
-echo 关闭钉钉成功
 
 echo 关闭谷歌浏览器成功
 
