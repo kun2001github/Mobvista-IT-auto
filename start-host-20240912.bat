@@ -27,13 +27,12 @@ echo ******当前目录已更改为: %cd%******
 echo.
 echo.
 
-echo ******安装/更新WIFI驱动以及蓝牙驱动******
-echo **更新蓝牙可能会重启电脑，重启电脑后再次执行脚本即可**
-WiFi-23.70.2-Driver64-Win10-Win11.exe -q -s
-BT-23.70.3-64UWD-Win10-Win11.exe/qn
-echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
-echo.
-echo.
+@REM echo ******安装/更新WIFI驱动以及蓝牙驱动******
+@REM WiFi-23.60.1-Driver64-Win10-Win11.exe -q -s
+@REM BT-23.60.0-64UWD-Win10-Win11.exe /qn
+@REM echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
+@REM echo.
+@REM echo.
 
 ::----------------------------------------------------------------------------------------------------------------
 echo ******连接WIFI test******
@@ -221,7 +220,7 @@ echo.
 ::----------------------------------------------------------------------------------------------------------------
 echo ******发放标准软件安装******
 start /wait hPjeBME6V2khYZI3p-8bssXpQTdi9XPL.exe 
-start /wait 7z2407-x64.exe /S
+start /wait 7z2408-x64.exe /S
 echo 安装成功7-zip
 
 start /wait PotPlayerSetup64.exe /S
@@ -239,7 +238,7 @@ echo 安装成功钉钉
 start /wait ChromeStandaloneSetup64.exe
 echo 安装成功chrome浏览器
 
-start /wait WPS_Setup_17147.exe /S -agreelicense
+start /wait WPS_Setup_17857.exe /S -agreelicense
 echo 安装成功wps
 
 echo 关闭钉钉程序
@@ -256,14 +255,18 @@ echo 安装智能云钉钉打印机成功
 
 
 echo ******关闭软件******
+
 taskkill -f -im chrome.exe
 taskkill -f -im wps.exe
+taskkill -f -im DingTalk.exe
 reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{EEEEFCF7-867B-4FA2-9ABD-884CF531B600}" /f
 reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{EEEEFCF7-867B-4FA2-9ABD-884CF531B602}" /f
 
 echo 关闭谷歌浏览器成功
 
 echo 关闭wps成功
+
+echo 关闭钉钉成功
 
 echo 去除（隐藏）WPS云盘在此电脑的显示
 echo.
@@ -293,21 +296,21 @@ start "" "C:\Program Files (x86)\360\360Safe\EntAdmin\360EntDT.exe"
 @REM goto end
 
 @REM :notebook
-echo ******获取笔记本序列号并且复制******
-wmic bios get serialnumber | findstr /V SerialNumber | clip
-echo 笔记本序列号（如果没有复制成功，请在下方手动复制即可）：
-wmic bios get serialnumber
-echo ******笔记本：获取序列号并且复制命令******
-echo "wmic bios get serialnumber | findstr /V SerialNumber | clip" 
+@REM echo ******获取笔记本序列号并且复制******
+@REM wmic bios get serialnumber | findstr /V SerialNumber | clip
+@REM echo 笔记本序列号（如果没有复制成功，请在下方手动复制即可）：
+@REM wmic bios get serialnumber
+@REM echo ******笔记本：获取序列号并且复制命令******
+@REM echo "wmic bios get serialnumber | findstr /V SerialNumber | clip" 
 @REM goto end
 
 @REM :tablemodel
-@REM echo ******台式获取序列号并且复制******
-@REM wmic baseboard  get serialnumber | findstr /V SerialNumber | clip
-@REM echo 序列号（如果没有复制成功，请在下方手动复制即可）：
-@REM wmic baseboard  get serialnumber
-@REM echo ******台式：获取序列号并且复制命令******
-@REM echo "wmic baseboard  get serialnumber | findstr /V SerialNumber | clip"
+echo ******台式获取序列号并且复制******
+wmic baseboard  get serialnumber | findstr /V SerialNumber | clip
+echo 序列号（如果没有复制成功，请在下方手动复制即可）：
+wmic baseboard  get serialnumber
+echo ******台式：获取序列号并且复制命令******
+echo "wmic baseboard  get serialnumber | findstr /V SerialNumber | clip"
 @REM goto end
 
 @REM :end
