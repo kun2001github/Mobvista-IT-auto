@@ -233,7 +233,7 @@ echo 安装成功微信
 start /wait FeiLian_Windows_x86_v2.2.23_r1015_464e4f.exe /S
 echo 安装成功飞连
 
-start /wait 7.6.10-Release.82010807.exe /S
+start /wait 7.6.15-Release.91110808.exe /S
 echo 安装成功钉钉
 
 start /wait ChromeStandaloneSetup64.exe
