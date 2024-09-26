@@ -33,3 +33,4 @@
 2024.8.26 在华为笔记本上钉钉程序会影响到AcroRdrDCx642400220857的安装，修复
 2024.8.26 更新笔记本的wifi和蓝牙驱动，WiFi-23.70.2-Driver64-Win10-Win11.exe，BT-23.70.3-64UWD-Win10-Win11.exe
 2024.9.12 升级7z2408-x64.exe和升级WPS_Setup_17857.exe
+2024.9.26 更新PotPlayerSetup64.exe为[240827]，更新WPS_Setup_18276.exe

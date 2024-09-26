@@ -239,7 +239,7 @@ echo 安装成功钉钉
 start /wait ChromeStandaloneSetup64.exe
 echo 安装成功chrome浏览器
 
-start /wait WPS_Setup_17857.exe /S -agreelicense
+start /wait WPS_Setup_18276.exe /S -agreelicense
 echo 安装成功wps
 
 echo 关闭钉钉程序
