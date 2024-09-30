@@ -1,0 +1,8 @@
+.7z, 7-Zip.7z
+.zip, 7-Zip.zip
+.rar, 7-Zip.rar
+.mp4,  PotPlayerMini64.mp4
+.AVI,  PotPlayerMini64.AVI
+.mov,  PotPlayerMini64.mov
+.mkv,  PotPlayerMini64.mkv
+.flv,  PotPlayerMini64.flv
