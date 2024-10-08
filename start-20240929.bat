@@ -29,8 +29,8 @@ echo.
 
 echo ******安装/更新WIFI驱动以及蓝牙驱动******
 echo **更新蓝牙可能会重启电脑，重启电脑后再次执行脚本即可**
-WiFi-23.70.2-Driver64-Win10-Win11.exe -q -s
-BT-23.70.3-64UWD-Win10-Win11.exe/qn
+WiFi-23.80.1-Driver64-Win10-Win11.exe -q -s
+BT-23.80.0-64UWD-Win10-Win11.exe /qn
 echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
 echo.
 echo.
@@ -283,6 +283,15 @@ echo ******启动Python脚本设置7Zip和PDF默认******
 start 7Zip_and_PDF_default_setting_keyboard.exe
 echo 等待40秒倒计时完成操作
 timeout 40
+echo.
+echo.
+
+echo ******设置文件关联(7zip和PotPlayer)******
+
+@REM 如果你需要设置更过其他的，请修改配置文件 Default-File-association.txt
+
+SetUserFTA.exe Default-file-association.txt
+echo 文件关联设置完成
 echo.
 echo.
 

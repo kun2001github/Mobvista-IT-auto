@@ -286,6 +286,15 @@ timeout 40
 echo.
 echo.
 
+echo ******设置文件关联(7zip和PotPlayer)******
+
+@REM 如果你需要设置更过其他的，请修改配置文件 Default-File-association.txt
+
+SetUserFTA.exe Default-file-association.txt
+echo 文件关联设置完成
+echo.
+echo.
+
 
 echo 开始安装360企业云安全...
 Setup[T1q358KV][6332a09e67259].exe /S /corp=1
