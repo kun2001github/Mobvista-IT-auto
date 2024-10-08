@@ -6,3 +6,5 @@
 .mov,  PotPlayerMini64.mov
 .mkv,  PotPlayerMini64.mkv
 .flv,  PotPlayerMini64.flv
+.wav, PotPlayerMini64.wav
+.m3u8, PotPlayerMini64.m3u8
