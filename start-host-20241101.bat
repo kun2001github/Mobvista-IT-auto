@@ -9,7 +9,7 @@ cd /d "%~dp0"
 
 
 :: 设置bat标题
-title  静默安装3.5
+title  Mobvista-IT-自动安装配置脚本
 
 @REM echo ******请选择操作你的电脑类型******：
 
@@ -21,22 +21,27 @@ title  静默安装3.5
 
 @REM echo.
 
-:: 获取批处理文件所在的目录路径，并进入该目录  
-cd /d "%~dp0"  
+
 echo ******当前目录已更改为: %cd%******
 echo.
 echo.
 
-echo ******安装/更新WIFI驱动以及蓝牙驱动******
-echo **更新蓝牙可能会重启电脑，重启电脑后再次执行脚本即可**
-WiFi-23.80.1-Driver64-Win10-Win11.exe -q -s
-BT-23.80.0-64UWD-Win10-Win11.exe /qn
-echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
+echo ******"脚本开始时间: " %time%******
+set start=%time%
 echo.
 echo.
 
+echo ******【1】安装/更新WIFI驱动以及蓝牙驱动******
+echo 台式机无需操作！！！
+@REM echo **更新蓝牙可能会重启电脑，重启电脑后再次执行脚本即可**
+@REM WiFi-23.80.1-Driver64-Win10-Win11.exe -q -s
+@REM BT-23.80.0-64UWD-Win10-Win11.exe /qn
+@REM echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
+@REM echo.
+@REM echo.
+
 ::----------------------------------------------------------------------------------------------------------------
-echo ******连接WIFI test******
+echo ******【2】连接WIFI test******
 echo 正在添加Wi-Fi配置文件...  
 ::netsh wlan add profile filename="C:\my_share\EasyU_tools\bat-demo\test.xml"
 netsh wlan add profile filename= "%cd%\test.xml"
@@ -56,7 +61,7 @@ echo.
 
 
 ::----------------------------------------------------------------------------------------------------------------
-echo ******设置电脑壁纸******
+echo ******【3】设置电脑壁纸******
 echo 复制壁纸图片到 C:\Windows\Web\Screen 中...
 xcopy /Y ".\Mobvista\*.png" "C:\Windows\Web\Screen"
 echo 设置壁纸中....
@@ -84,7 +89,7 @@ echo.
 
 
 ::----------------------------------------------------------------------------------------------------------------
-echo ******设置电源选项配置******
+echo ******【4】设置电源选项配置******
 @REM echo -------关闭快速启动项--------
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled /t REG_DWORD /d 0 /f
 @REM 可以使用powershell查看：(GP "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power")."HiberbootEnabled"，或者是在cmd可以使用reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled
@@ -142,7 +147,7 @@ echo.
 
 ::----------------------------------------------------------------------------------------------------------------
 
-echo ******修改用户密码******
+echo ******【5】修改用户密码******
 echo 正在为用户名为：%USERNAME% 修改密码中...
 net user %USERNAME% Mobvista_256
 if %errorlevel% neq 0 echo 用户不存在，或者是权限不足，请看上面的ERROR
@@ -155,7 +160,7 @@ endlocal
 
 ::----------------------------------------------------------------------------------------------------------------
 setlocal
-echo ******解锁C盘的BitLocker加密******
+echo ******【6】解锁C盘的BitLocker加密******
 manage-bde -off C:
 if %errorlevel% neq 0 echo 可能并未开启BitLocker加密，或者是权限不足，所以解锁失败，不影响，详情请看上面的ERROR
 echo 解锁BitLocker加密完成！！！
@@ -165,7 +170,7 @@ endlocal
 
 
 ::----------------------------------------------------------------------------------------------------------------
-echo ******调整UAC级别更改计算机时通知我（不降低桌面亮度）******
+echo ******【7】调整UAC级别更改计算机时通知我（不降低桌面亮度）******
 @REM reg.exe add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0x5 /f
 @REM echo.
 @REM start C:\WINDOWS\System32\UserAccountControlSettings.exe
@@ -177,18 +182,19 @@ echo.
 ::----------------------------------------------------------------------------------------------------------------
 
 
-echo ******显示桌面图标（计算机）******
+echo ******【8】显示桌面图标（计算机）******
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v {20D04FE0-3AEA-1069-A2D8-08002B30309D} /t REG_DWORD /d 0 /f
 if %errorlevel% neq 0 echo 图片地址不存在，或者是权限不足，请看上面的ERROR
 echo 显示此电脑图标完成！！！
 echo.
 echo.
 
-echo ******隐藏设置中恢复选项******
+echo ******【9】隐藏设置中恢复选项******
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "SettingsPageVisibility" /t REG_SZ /d "hide:recovery" /f
 echo 设置中的恢复选项隐藏成功！！！
-
-echo ******关闭自动播放******
+echo.
+echo.
+echo ******【10】关闭自动播放******
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" /v DisableAutoplay /t REG_DWORD /d 1 /f
 echo 关闭自动播放完成！！！
 
@@ -197,7 +203,7 @@ echo.
 echo.
 
 ::----------------------------------------------------------------------------------------------------------------
-echo ******复制入职培训的PDF到桌面******
+echo ******【11】复制入职培训的PDF到桌面******
 xcopy /Y ".\*.pdf" "%USERPROFILE%\Desktop\"
 xcopy /Y ".\*.pptx"  "%USERPROFILE%\Desktop\"
 if %errorlevel% neq 0 echo 似乎复制失败了，请手动复制！ 
@@ -205,14 +211,14 @@ echo 入职培训PDF复制完成！！！
 echo.
 echo.
 
-echo ******打开此电脑，请检查是否有有其他分区，如有请进行清理数据******
+echo ******【12】打开此电脑，请检查是否有有其他分区，如有请进行清理数据******
 explorer.exe ::{20D04FE0-3AEA-1069-A2D8-08002B30309D}
 echo 打开此电脑完成，请手动检查是否有需要格式化的分区！！！
 echo.
 echo.
 
 
-echo ******系统更新******
+echo ******【13】系统更新******
 echo 打开系统更新中...
 start ms-settings:windowsupdate
 echo 执行检查更新...
@@ -222,8 +228,35 @@ echo.
 echo.
 
 
+
+echo "基础配置脚本执行结束: " %time%
+set end=%time%
+
+:: 计算时间差
+set options="tokens=1-4 delims=:.,"
+for /f %options% %%a in ("%start%") do set start_h=%%a&set /a start_m=100%%b %% 100&set /a start_s=100%%c %% 100&set /a start_ms=100%%d %% 100
+for /f %options% %%a in ("%end%") do set end_h=%%a&set /a end_m=100%%b %% 100&set /a end_s=100%%c %% 100&set /a end_ms=100%%d %% 100
+set /a hours=%end_h%-%start_h%
+set /a mins=%end_m%-%start_m%
+set /a secs=%end_s%-%start_s%
+set /a ms=%end_ms%-%start_ms%
+if %ms% lss 0 set /a secs = %secs% - 1 & set /a ms = 100%ms%
+if %secs% lss 0 set /a mins = %mins% - 1 & set /a secs = 60%secs%
+if %mins% lss 0 set /a hours = %hours% - 1 & set /a mins = 60%mins%
+if %hours% lss 0 set /a hours = 24%hours%
+if 1%ms% lss 100 set ms=0%ms%
+
+echo.
+echo.
+:: 计算时间并输出
+set /a totalsecs = %hours%*3600 + %mins%*60 + %secs%
+echo "基础配置耗时：" %hours%:%mins%:%secs%.%ms% (%totalsecs%.%ms%s total)
+echo.
+echo.
+
+
 ::----------------------------------------------------------------------------------------------------------------
-echo ******发放标准软件安装******
+echo ******【15】发放标准软件安装******
 start /wait hPjeBME6V2khYZI3p-8bssXpQTdi9XPL.exe 
 start /wait 7z2408-x64.exe /S
 echo 安装成功7-zip
@@ -237,13 +270,13 @@ echo 安装成功微信
 start /wait FeiLian_Windows_x86_v2.2.23_r1015_464e4f.exe /S
 echo 安装成功飞连
 
-start /wait 7.6.15-Release.91110808.exe /S
+start /wait 7.6.25-Release.102910812.exe /S
 echo 安装成功钉钉
 
 start /wait ChromeStandaloneSetup64.exe
 echo 安装成功chrome浏览器
 
-start /wait WPS_Setup_18276.exe /S -agreelicense
+start /wait WPS_Setup_18608.exe /S -agreelicense
 echo 安装成功wps
 
 echo 关闭钉钉程序
@@ -259,7 +292,7 @@ start /wait DingTalk_Pirnt.exe
 echo 安装智能云钉钉打印机成功
 
 
-echo ******关闭软件******
+echo ******【16】关闭软件以及其他配置******
 taskkill -f -im chrome.exe
 taskkill -f -im wps.exe
 taskkill -f -im DingTalk.exe
@@ -279,14 +312,16 @@ echo.
 @REM echo -------启动AcroRdrDCx 设置默认PDF-------------
 @REM start "" "C:\Program Files\Adobe\Acrobat DC\Acrobat\ShowAppPickerForPDF.exe"
 
-echo ******启动Python脚本设置7Zip和PDF默认******
+echo ******【17】启动Python脚本设置7Zip和PDF默认******
 start 7Zip_and_PDF_default_setting_keyboard.exe
-echo 等待40秒倒计时完成操作
-timeout 40
+echo 等待40秒倒计时完成操作，请勿操作电脑！！！
+
+timeout /t 40
+
 echo.
 echo.
 
-echo ******设置文件关联(7zip和PotPlayer)******
+echo ******【18】设置文件关联(7zip和PotPlayer)******
 
 @REM 如果你需要设置更过其他的，请修改配置文件 Default-File-association.txt
 
@@ -295,17 +330,43 @@ echo 文件关联设置完成
 echo.
 echo.
 
-echo ******卸载小组件******
+echo ******【19】卸载小组件******
 winget  uninstall "windows web experience pack" --accept-source-agreements
 echo 卸载完成！！！重启后生效
-
+echo.
+echo.
 
 echo 开始安装360企业云安全...
 Setup[T1q358KV][6332a09e67259].exe /S /corp=1
 echo 安装成功360企业云安全
 start "" "C:\Program Files (x86)\360\360Safe\EntAdmin\360EntDT.exe"
 
+echo.
+echo.
+echo "软件安装耗时时间结束: " %time%
+set end=%time%
 
+:: 计算时间差
+set options="tokens=1-4 delims=:.,"
+for /f %options% %%a in ("%start%") do set start_h=%%a&set /a start_m=100%%b %% 100&set /a start_s=100%%c %% 100&set /a start_ms=100%%d %% 100
+for /f %options% %%a in ("%end%") do set end_h=%%a&set /a end_m=100%%b %% 100&set /a end_s=100%%c %% 100&set /a end_ms=100%%d %% 100
+set /a hours=%end_h%-%start_h%
+set /a mins=%end_m%-%start_m%
+set /a secs=%end_s%-%start_s%
+set /a ms=%end_ms%-%start_ms%
+if %ms% lss 0 set /a secs = %secs% - 1 & set /a ms = 100%ms%
+if %secs% lss 0 set /a mins = %mins% - 1 & set /a secs = 60%secs%
+if %mins% lss 0 set /a hours = %hours% - 1 & set /a mins = 60%mins%
+if %hours% lss 0 set /a hours = 24%hours%
+if 1%ms% lss 100 set ms=0%ms%
+
+echo.
+echo.
+:: 计算时间并输出
+set /a totalsecs = %hours%*3600 + %mins%*60 + %secs%
+echo "基础配置加软件安装耗时：" %hours%:%mins%:%secs%.%ms% (%totalsecs%.%ms%s total)
+echo.
+echo.
 @REM ::判断对应的类型，匹配不同的复制序列号
 @REM if %choice%==1 goto notebook
 @REM if %choice%==2 goto tablemodel
@@ -313,23 +374,22 @@ start "" "C:\Program Files (x86)\360\360Safe\EntAdmin\360EntDT.exe"
 @REM goto end
 
 @REM :notebook
-echo ******获取笔记本序列号并且复制******
-wmic bios get serialnumber | findstr /V SerialNumber | clip
-echo 笔记本序列号（如果没有复制成功，请在下方手动复制即可）：
-wmic bios get serialnumber
-echo ******笔记本：获取序列号并且复制命令******
-echo "wmic bios get serialnumber | findstr /V SerialNumber | clip" 
+@REM echo ******获取笔记本序列号并且复制******
+@REM wmic bios get serialnumber | findstr /V SerialNumber | clip
+@REM echo 笔记本序列号（如果没有复制成功，请在下方手动复制即可）：
+@REM wmic bios get serialnumber
+@REM echo ******笔记本：获取序列号并且复制命令******
+@REM echo "wmic bios get serialnumber | findstr /V SerialNumber | clip" 
 @REM goto end
 
 @REM :tablemodel
-@REM echo ******台式获取序列号并且复制******
-@REM wmic baseboard  get serialnumber | findstr /V SerialNumber | clip
-@REM echo 序列号（如果没有复制成功，请在下方手动复制即可）：
-@REM wmic baseboard  get serialnumber
-@REM echo ******台式：获取序列号并且复制命令******
-@REM echo "wmic baseboard  get serialnumber | findstr /V SerialNumber | clip"
+echo ******台式获取序列号并且复制******
+wmic baseboard  get serialnumber | findstr /V SerialNumber | clip
+echo 序列号（如果没有复制成功，请在下方手动复制即可）：
+wmic baseboard  get serialnumber
+echo ******台式：获取序列号并且复制命令******
+echo "wmic baseboard  get serialnumber | findstr /V SerialNumber | clip"
 @REM goto end
-
 @REM :end
 
 echo.
@@ -382,9 +442,11 @@ echo.
 echo.
 
 echo ******请选择对应的操作******：
-
+echo *
+echo *
 echo ******1. 重启******
-
+echo *
+echo *
 echo ******2. 关机******
 
 set /p userinput=请输入选项（1或2）并按回车键：
