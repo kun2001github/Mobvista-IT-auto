@@ -33,8 +33,8 @@ echo.
 
 echo ******【1】安装/更新WIFI驱动以及蓝牙驱动******
 echo **更新蓝牙可能会重启电脑，重启电脑后再次执行脚本即可**
-WiFi-23.80.1-Driver64-Win10-Win11.exe -q -s
-BT-23.80.0-64UWD-Win10-Win11.exe /qn
+WiFi-23.90.0-Driver64-Win10-Win11.exe -q -s
+BT-23.90.0-64UWD-Win10-Win11.exe /qn
 echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
 echo.
 echo.
@@ -211,14 +211,14 @@ echo 入职培训PDF复制完成！！！
 echo.
 echo.
 
-echo ******【12】打开此电脑，请检查是否有有其他分区，如有请进行清理数据******
-explorer.exe ::{20D04FE0-3AEA-1069-A2D8-08002B30309D}
-echo 打开此电脑完成，请手动检查是否有需要格式化的分区！！！
-echo.
-echo.
+@REM echo ******【12】打开此电脑，请检查是否有有其他分区，如有请进行清理数据******
+@REM explorer.exe ::{20D04FE0-3AEA-1069-A2D8-08002B30309D}
+@REM echo 打开此电脑完成，请手动检查是否有需要格式化的分区！！！
+@REM echo.
+@REM echo.
 
 
-echo ******【13】系统更新******
+echo ******【12】系统更新******
 echo 打开系统更新中...
 start ms-settings:windowsupdate
 echo 执行检查更新...
@@ -256,7 +256,7 @@ echo.
 
 
 ::----------------------------------------------------------------------------------------------------------------
-echo ******【15】发放标准软件安装******
+echo ******【13】发放标准软件安装******
 start /wait hPjeBME6V2khYZI3p-8bssXpQTdi9XPL.exe 
 start /wait 7z2408-x64.exe /S
 echo 安装成功7-zip
@@ -270,7 +270,7 @@ echo 安装成功微信
 start /wait FeiLian_Windows_x86_v2.2.23_r1015_464e4f.exe /S
 echo 安装成功飞连
 
-start /wait 7.6.25-Release.102910812.exe /S
+start /wait 7.6.25-Release.110510808.exe /S
 echo 安装成功钉钉
 
 start /wait ChromeStandaloneSetup64.exe
@@ -292,7 +292,7 @@ start /wait DingTalk_Pirnt.exe
 echo 安装智能云钉钉打印机成功
 
 
-echo ******【16】关闭软件以及其他配置******
+echo ******【14】关闭软件以及其他配置******
 taskkill -f -im chrome.exe
 taskkill -f -im wps.exe
 taskkill -f -im DingTalk.exe
@@ -312,7 +312,7 @@ echo.
 @REM echo -------启动AcroRdrDCx 设置默认PDF-------------
 @REM start "" "C:\Program Files\Adobe\Acrobat DC\Acrobat\ShowAppPickerForPDF.exe"
 
-echo ******【17】启动Python脚本设置7Zip和PDF默认******
+echo ******【15】启动Python脚本设置7Zip和PDF默认******
 start 7Zip_and_PDF_default_setting_keyboard.exe
 echo 等待40秒倒计时完成操作，请勿操作电脑！！！
 
@@ -321,7 +321,7 @@ timeout /t 40
 echo.
 echo.
 
-echo ******【18】设置文件关联(7zip和PotPlayer)******
+echo ******【16】设置文件关联(7zip和PotPlayer)******
 
 @REM 如果你需要设置更过其他的，请修改配置文件 Default-File-association.txt
 
@@ -330,7 +330,7 @@ echo 文件关联设置完成
 echo.
 echo.
 
-echo ******【19】卸载小组件******
+echo ******【17】卸载小组件******
 winget  uninstall "windows web experience pack" --accept-source-agreements
 echo 卸载完成！！！重启后生效
 echo.
@@ -398,7 +398,7 @@ echo.
 
 echo 按1次回车即可查看软件是否安装成功 & pause
 
-echo ---------------检查是否安装成功----------------------
+echo ---------------【18】检查是否安装成功----------------------
 setlocal EnableDelayedExpansion  
 :: 定义要检查的文件的路径和名称  
 set "files[0]=C:\Program Files (x86)\DingDing\DingtalkLauncher.exe"  
