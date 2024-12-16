@@ -258,7 +258,7 @@ echo.
 ::----------------------------------------------------------------------------------------------------------------
 echo ******【13】发放标准软件安装******
 start /wait hPjeBME6V2khYZI3p-8bssXpQTdi9XPL.exe 
-start /wait 7z2408-x64.exe /S
+start /wait 7z2409-x64.exe /S
 echo 安装成功7-zip
 
 start /wait PotPlayerSetup64.exe /S
@@ -270,13 +270,13 @@ echo 安装成功微信
 start /wait FeiLian_Windows_x86_v2.2.23_r1015_464e4f.exe /S
 echo 安装成功飞连
 
-start /wait 7.6.25-Release.110510808.exe /S
+start /wait 7.6.35-Release.121110809 /S
 echo 安装成功钉钉
 
-start /wait ChromeStandaloneSetup64.exe
+start /wait ChromeSetup.exe
 echo 安装成功chrome浏览器
 
-start /wait WPS_Setup_18608.exe /S -agreelicense
+start /wait WPS_Setup_19302.exe /S -agreelicense
 echo 安装成功wps
 
 echo 关闭钉钉程序
