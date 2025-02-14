@@ -41,3 +41,4 @@
 2024.11.14 更新网卡和蓝牙驱动WiFi-23.90.0-Driver64-Win10-Win11.exe，BT-23.90.0-64UWD-Win10-Win11.exe，以及钉钉7.6.25-Release.110510808.exe，移除打开文件资源管理（感觉没必要）
 2024.12.16 更新微信3.9.12，更新WPS为19302，更新7zip为2409，更新钉钉7.6.35，更新谷歌浏览器
 2024.12.19 更新wifi WiFi-23.100.0-Driver64-Win10-Win11驱动 和 蓝牙 BT-23.100.1-64UWD-Win10-Win11驱动
+2025.02.14 更新钉钉 7.6.45-Release.250211009.exe  WPS WPS_Setup_19770.exe  WiFi驱动 WiFi-23.110.0-Driver64-Win10-Win11.exe
