@@ -32,12 +32,13 @@ echo.
 echo.
 
 echo ******【1】安装/更新WIFI驱动以及蓝牙驱动******
-echo **更新蓝牙可能会重启电脑，重启电脑后再次执行脚本即可**
-WiFi-23.100.0-Driver64-Win10-Win11.exe -q -s
-BT-23.100.1-64UWD-Win10-Win11.exe /qn
-echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
-echo.
-echo.
+echo 台式机无需操作！！！
+@REM echo **更新蓝牙可能会重启电脑，重启电脑后再次执行脚本即可**
+@REM WiFi-23.80.1-Driver64-Win10-Win11.exe -q -s
+@REM BT-23.80.0-64UWD-Win10-Win11.exe /qn
+@REM echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
+@REM echo.
+@REM echo.
 
 ::----------------------------------------------------------------------------------------------------------------
 echo ******【2】连接WIFI test******
@@ -149,12 +150,12 @@ echo.
 echo ******【5】修改用户密码******
 echo 正在为用户名为：%USERNAME% 修改密码中...
 net user %USERNAME% Mobvista_256
-@REM if %errorlevel% neq 0 echo 用户不存在，或者是权限不足，请看上面的ERROR
+if %errorlevel% neq 0 echo 用户不存在，或者是权限不足，请看上面的ERROR
 ::测试密码是否设置成功runas /user:MVGZ001 cmd.exe   
 echo 密码修改成功，注销或者是重启即可生效！！！
 echo.
 echo.
-
+endlocal
 
 
 ::----------------------------------------------------------------------------------------------------------------
@@ -193,7 +194,6 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\E
 echo 设置中的恢复选项隐藏成功！！！
 echo.
 echo.
-
 echo ******【10】关闭自动播放******
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" /v DisableAutoplay /t REG_DWORD /d 1 /f
 echo 关闭自动播放完成！！！
@@ -270,13 +270,13 @@ echo 安装成功微信
 start /wait FeiLian_Windows_x86_v2.2.23_r1015_464e4f.exe /S
 echo 安装成功飞连
 
-start /wait 7.6.35-Release.121110809 /S
+start /wait 7.6.45-Release.250211009.exe /S
 echo 安装成功钉钉
 
 start /wait ChromeSetup.exe
 echo 安装成功chrome浏览器
 
-start /wait WPS_Setup_19302.exe /S -agreelicense
+start /wait WPS_Setup_19770.exe /S -agreelicense
 echo 安装成功wps
 
 echo 关闭钉钉程序
@@ -374,23 +374,22 @@ echo.
 @REM goto end
 
 @REM :notebook
-echo ******获取笔记本序列号并且复制******
-wmic bios get serialnumber | findstr /V SerialNumber | clip
-echo 笔记本序列号（如果没有复制成功，请在下方手动复制即可）：
-wmic bios get serialnumber
-echo ******笔记本：获取序列号并且复制命令******
-echo "wmic bios get serialnumber | findstr /V SerialNumber | clip" 
+@REM echo ******获取笔记本序列号并且复制******
+@REM wmic bios get serialnumber | findstr /V SerialNumber | clip
+@REM echo 笔记本序列号（如果没有复制成功，请在下方手动复制即可）：
+@REM wmic bios get serialnumber
+@REM echo ******笔记本：获取序列号并且复制命令******
+@REM echo "wmic bios get serialnumber | findstr /V SerialNumber | clip" 
 @REM goto end
 
 @REM :tablemodel
-@REM echo ******台式获取序列号并且复制******
-@REM wmic baseboard  get serialnumber | findstr /V SerialNumber | clip
-@REM echo 序列号（如果没有复制成功，请在下方手动复制即可）：
-@REM wmic baseboard  get serialnumber
-@REM echo ******台式：获取序列号并且复制命令******
-@REM echo "wmic baseboard  get serialnumber | findstr /V SerialNumber | clip"
+echo ******台式获取序列号并且复制******
+wmic baseboard  get serialnumber | findstr /V SerialNumber | clip
+echo 序列号（如果没有复制成功，请在下方手动复制即可）：
+wmic baseboard  get serialnumber
+echo ******台式：获取序列号并且复制命令******
+echo "wmic baseboard  get serialnumber | findstr /V SerialNumber | clip"
 @REM goto end
-
 @REM :end
 
 echo.
