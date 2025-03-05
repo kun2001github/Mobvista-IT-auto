@@ -33,8 +33,10 @@ echo.
 
 echo ******【1】安装/更新WIFI驱动以及蓝牙驱动******
 echo **更新蓝牙可能会重启电脑，重启电脑后再次执行脚本即可**
-WiFi-23.110.0-Driver64-Win10-Win11.exe -q -s
-BT-23.100.1-64UWD-Win10-Win11.exe /qn
+WiFi-23.120.0-Driver64-Win10-Win11.exe -q -s 
+if %errorlevel% neq 0 echo 蓝牙安装失败
+BT-23.120.0-64UWD-Win10-Win11.exe /qn
+if %errorlevel% neq 0 echo WIFI安装失败
 echo 安装/更新WIFI驱动以及蓝牙驱动完成！！！
 echo.
 echo.
@@ -270,13 +272,13 @@ echo 安装成功微信
 start /wait FeiLian_Windows_x86_v2.2.23_r1015_464e4f.exe /S
 echo 安装成功飞连
 
-start /wait 7.6.45-Release.250211009.exe /S
+start /wait 7.6.45-Release.250241020.exe /S
 echo 安装成功钉钉
 
 start /wait ChromeSetup.exe
 echo 安装成功chrome浏览器
 
-start /wait WPS_Setup_19770.exe /S -agreelicense
+start /wait WPS_Setup_20305.exe /S -agreelicense
 echo 安装成功wps
 
 echo 关闭钉钉程序
