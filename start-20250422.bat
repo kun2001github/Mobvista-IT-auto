@@ -13,7 +13,7 @@ title  Mobvista-IT-标准化安装配置脚本
 
 ::检查是判断笔记本/台式机
 
-for /f "delims=" %%i in ('powershell -Command "if((Get-WmiObject -Class Win32_SystemEnclosure).ChassisTypes -match '(9|10|11|12|14|18|21|30)'){Write-Host '笔记本电脑'}elseif((Get-WmiObject -Class Win32_SystemEnclosure).ChassisTypes -match '(3|4|5|6)'){Write-Host '台式机'}else{Write-Host '无法确定设备类型'}"') do set "deviceType=%%i"
+for /f "delims=" %%i in ('powershell -Command "if((Get-WmiObject -Class Win32_SystemEnclosure).ChassisTypes -match '(9|10|11|12|14|18|22|30)'){Write-Host '笔记本电脑'}elseif((Get-WmiObject -Class Win32_SystemEnclosure).ChassisTypes -match '(3|4|5|6)'){Write-Host '台式机'}else{Write-Host '无法确定设备类型'}"') do set "deviceType=%%i"
 
 if "%deviceType%"=="笔记本电脑" goto LAPTOP
 if "%deviceType%"=="台式机" goto DESKTOP
@@ -22,7 +22,7 @@ goto UNKNOWN
 :LAPTOP
 echo.
 echo 检测到是笔记本电脑，开始执行...
-echo ******【1/21】安装/更新WIFI驱动以及蓝牙驱动，如果电脑重启，再次执行脚本即可******
+echo ******【1/22】安装/更新WIFI驱动以及蓝牙驱动，如果电脑重启，再次执行脚本即可******
 echo 正在安装WIFI驱动...
 WiFi-23.120.0-Driver64-Win10-Win11.exe -q -s 
 if %errorlevel% equ 0 (
@@ -42,7 +42,7 @@ echo.
 goto END
 
 :DESKTOP
-echo ******【1/21】安装/更新WIFI驱动以及蓝牙驱动******
+echo ******【1/22】安装/更新WIFI驱动以及蓝牙驱动******
 echo 检测到是台式机，跳过安装WIFI驱动以及蓝牙驱动...
 echo.
 echo.
@@ -65,14 +65,14 @@ echo.
 
 
 ::----------------------------------------------------------------------------------------------------------------
-echo ******【2/21】连接WIFI test******
+echo ******【2/22】连接WIFI MVIT******
 echo 正在添加Wi-Fi配置文件...  
-::netsh wlan add profile filename="C:\my_share\EasyU_tools\bat-demo\test.xml"
-netsh wlan add profile filename= "%cd%\test.xml"
+::netsh wlan add profile filename="C:\my_share\EasyU_tools\bat-demo\MVIT.xml"
+netsh wlan add profile filename= "%cd%\MVIT.xml"
 if %errorlevel% neq 0 echo ×  添加配置文件失败,文件不存在,或者是文件权限不足！
 
 echo 正在连接Wi-Fi网络...  
-netsh wlan connect name="test" 
+netsh wlan connect name="MVIT" 
 if %errorlevel% equ 0 (
     echo √  WIFI连接成功
 ) else (
@@ -88,7 +88,7 @@ echo.
 
 
 ::----------------------------------------------------------------------------------------------------------------
-echo ******【3/21】设置电脑壁纸******
+echo ******【3/22】设置电脑壁纸******
 echo 复制壁纸图片到 C:\Windows\Web\Screen 中...
 xcopy /Y ".\Mobvista\*.png" "C:\Windows\Web\Screen"
 if %errorlevel% neq 0 echo ×  壁纸复制失败，请检查文件路径或权限！
@@ -123,7 +123,7 @@ echo.
 
 
 ::----------------------------------------------------------------------------------------------------------------
-echo ******【4/21】设置电源选项配置******
+echo ******【4/22】设置电源选项配置******
 @REM echo -------关闭快速启动项--------
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled /t REG_DWORD /d 0 /f
 @REM 可以使用powershell查看：(GP "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power")."HiberbootEnabled"，或者是在cmd可以使用reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled
@@ -182,7 +182,7 @@ echo.
 ::----------------------------------------------------------------------------------------------------------------
 
 
-echo ******【5/21】修改用户密码******
+echo ******【5/22】修改用户密码******
 echo 正在为用户名为：%USERNAME% 修改密码中...
 echo 执行密码修改命令...
 net user %USERNAME% Mobvista_256
@@ -201,7 +201,7 @@ echo.
 
 ::----------------------------------------------------------------------------------------------------------------
 setlocal
-echo ******【6/21】解锁C盘的BitLocker加密******
+echo ******【6/22】解锁C盘的BitLocker加密******
 manage-bde -off C:
 if %errorlevel% equ 0 (
     echo √  解锁BitLocker加密完成
@@ -214,7 +214,7 @@ endlocal
 
 
 ::----------------------------------------------------------------------------------------------------------------
-echo ******【7/21】调整UAC级别更改计算机时通知我（不降低桌面亮度）******
+echo ******【7/22】调整UAC级别更改计算机时通知我（不降低桌面亮度）******
 @REM reg.exe add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0x5 /f
 @REM echo.
 @REM start C:\WINDOWS\System32\UserAccountControlSettings.exe
@@ -226,7 +226,7 @@ echo.
 ::----------------------------------------------------------------------------------------------------------------
 
 
-echo ******【8/21】显示桌面图标（计算机）******
+echo ******【8/22】显示桌面图标（计算机）******
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v {20D04FE0-3AEA-1069-A2D8-08002B30309D} /t REG_DWORD /d 0 /f
 if %errorlevel% equ 0 (
     echo √  执行成功，显示此电脑图标完成
@@ -236,7 +236,7 @@ if %errorlevel% equ 0 (
 echo.
 echo.
 
-echo ******【9/21】隐藏设置中恢复选项******
+echo ******【9/22】隐藏设置中恢复选项******
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "SettingsPageVisibility" /t REG_SZ /d "hide:recovery" /f
 if %errorlevel% equ 0 (
     echo √  设置中的恢复选项隐藏成功
@@ -246,7 +246,7 @@ if %errorlevel% equ 0 (
 echo.
 echo.
 
-echo ******【10/21】关闭自动播放******
+echo ******【10/22】关闭自动播放******
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" /v DisableAutoplay /t REG_DWORD /d 1 /f
 if %errorlevel% equ 0 (
     echo √  关闭自动播放成功
@@ -259,7 +259,7 @@ echo.
 echo.
 
 ::----------------------------------------------------------------------------------------------------------------
-echo ******【11/21】复制入职培训的PDF到桌面******
+echo ******【11/22】复制入职培训的PDF到桌面******
 xcopy /Y ".\*.pdf" "%USERPROFILE%\Desktop\"
 xcopy /Y ".\*.pptx"  "%USERPROFILE%\Desktop\"
 if %errorlevel% equ 0 (
@@ -277,7 +277,7 @@ echo.
 @REM echo.
 
 
-echo ******【12/21】系统更新******
+echo ******【12/22】系统更新******
 echo 打开系统更新中...
 start ms-settings:windowsupdate
 echo 执行检查更新...
@@ -315,7 +315,7 @@ echo.
 
 
 ::----------------------------------------------------------------------------------------------------------------
-echo ******【13/21】发放标准软件安装******
+echo ******【13/22】发放标准软件安装******
 echo [1/10] 正在安装7-Zip...
 start /wait hPjeBME6V2khYZI3p-8bssXpQTdi9XPL.exe 
 start /wait 7z2409-x64.exe /S
@@ -354,7 +354,7 @@ echo √  安装成功AcroRdrDCx
 taskkill -f -im wps.exe
 
 echo [9/10] 正在安装AcroRdrALSDx64 语言包...
-start /wait AcroRdrALSDx64_2300820421_all_DC.msi /passive
+start /wait AcroRdrALSDx64_2300820422_all_DC.msi /passive
 echo √  安装成功 AcroRdrALSDx64 语言包
 
 echo [10/10] 正在安装智能云钉钉打印...
@@ -364,7 +364,7 @@ taskkill -f -im DingTalk.exe
 echo.
 echo.
 
-echo ******【14/21】关闭软件以及其他配置******
+echo ******【14/22】关闭软件以及其他配置******
 
 tasklist | find "DingTalk.exe"  && echo 进程仍在运行 || echo √  已成功关闭钉钉
 
@@ -382,7 +382,7 @@ echo.
 @REM echo -------启动AcroRdrDCx 设置默认PDF-------------
 @REM start "" "C:\Program Files\Adobe\Acrobat DC\Acrobat\ShowAppPickerForPDF.exe"
 
-echo ******【15/21】启动Python脚本设置7Zip和PDF默认******
+echo ******【15/22】启动Python脚本设置7Zip和PDF默认******
 start 7Zip_and_PDF_default_setting_keyboard.exe
 echo 等待40秒倒计时完成操作，请勿操作电脑...
 
@@ -391,7 +391,7 @@ timeout /t 40
 echo.
 echo.
 
-echo ******【16/21】设置文件关联(7zip和PotPlayer)******
+echo ******【16/22】设置文件关联(7zip和PotPlayer)******
 
 @REM 如果你需要设置更过其他的，请修改配置文件 Default-File-association.txt
 
@@ -404,13 +404,13 @@ if %errorlevel% equ 0 (
 echo.
 echo.
 
-echo ******【17/21】卸载小组件******
+echo ******【17/22】卸载小组件******
 winget  uninstall "windows web experience pack" --accept-source-agreements
 echo √  卸载完成！！！重启后生效
 echo.
 echo.
 
-echo ******【18/21】安装360企业云安全软件******
+echo ******【18/22】安装360企业云安全软件******
 echo 开始安装360企业云安全...
 echo 正在执行安装程序...
 Setup[T1q358KV][6332a09e67259].exe /S /corp=1
@@ -454,7 +454,7 @@ echo.
 @REM goto end
 
 @REM :notebook
-echo ******【19/21】获取笔记本序列号并且复制******
+echo ******【19/22】获取笔记本序列号并且复制******
 powershell -Command "(Get-WmiObject Win32_BIOS).SerialNumber | clip; Write-Host \"√  序列号已复制到剪贴板：\" -NoNewline; Get-Clipboard"
 @REM wmic bios get serialnumber | findstr /V SerialNumber | clip
 @REM echo 笔记本序列号（如果没有复制成功，请在下方手动复制即可）：
@@ -477,7 +477,7 @@ powershell -Command "(Get-WmiObject Win32_BIOS).SerialNumber | clip; Write-Host 
 
 @REM echo 按1次回车即可查看软件是否安装成功 & pause
 
-echo ---------------【20/21】检查是否安装成功----------------------
+echo ---------------【20/22】检查是否安装成功----------------------
 setlocal EnableDelayedExpansion  
 :: 定义要检查的文件的路径和名称  
 set "files[0]=C:\Program Files (x86)\DingDing\DingtalkLauncher.exe"  
@@ -509,8 +509,18 @@ endlocal
 echo.
 echo.
 
+echo ******【21/22】格式化其他盘符，调用脚本...******
+echo 调用powershell脚本，Format_disk_letter.ps1中...
 
-echo ******【21/21】获取电脑型号匹配卸载规则******
+echo 请手动确认一下吧，需要清理的盘符吧！
+
+PowerShell -ExecutionPolicy Bypass -Command "& { .\Format_disk_letter.ps1 }"
+echo √  执行成功，等待格式化完成
+echo.
+echo.
+
+
+echo ******【22/22】获取电脑型号匹配卸载规则******
 powershell -Command "$target='HP EliteBook 640 14 inch G11 Notebook PC'; $m=(Get-CimInstance Win32_ComputerSystem).Model; Write-Host '当前型号:'$m; if($m -eq $target){ try{ Start-Process cmd -ArgumentList '/c \"%cd%/remove_software.bat"'  -Verb RunAs -Wait; Write-Host '√  脚本已提权执行卸载脚本，请手动操作' -ForegroundColor Green }catch{ Write-Host '执行失败: '$_.Exception.Message -ForegroundColor Red } }else{ Write-Host '×  型号不匹配，无需卸载' -ForegroundColor Yellow }"
 echo.
 echo.
@@ -522,7 +532,7 @@ netsh wlan disconnect
 if %errorlevel% neq 0 echo 连接Wi-Fi网络失败！
 
 echo ----------忘记wifi-------------
-netsh wlan delete profile test
+netsh wlan delete profile MVIT
 if %errorlevel% neq 0 echo 已忘记！
 echo.
 echo.
